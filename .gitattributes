@@ -1,0 +1,15 @@
+# Normalize all text files to LF line endings, both in the repository and on checkout.
+# Applies to every machine that clones this repo, regardless of OS or git config.
+* text=auto eol=lf
+
+# Binary assets — never apply line-ending or text conversion.
+*.png  binary
+*.ico  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.eot   binary
