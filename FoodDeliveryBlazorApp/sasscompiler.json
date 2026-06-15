@@ -1,0 +1,8 @@
+{
+  "Source": "Styles",
+  "Target": "wwwroot/css",
+  "Arguments": "--style=expanded --no-source-map",
+  "GenerateScopedCss": true,
+  "ScopedCssFolders": ["Views", "Pages", "Shared", "Components", "Features"],
+  "IncludePaths": ["Styles"]
+}
