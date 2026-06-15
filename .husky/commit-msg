@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+msg_file="$1"
+subject=$(sed -n '1p' "$msg_file")
+
+case "$subject" in
+  "Merge "*|"Revert "*|"fixup!"*|"squash!"*) exit 0 ;;
+esac
+
+types='feat|fix|docs|refactor|test|chore|perf|revert|build|ci'
+
+if ! printf '%s' "$subject" | grep -qE "^($types)(\([a-z0-9._-]+\))?!?: .+"; then
+  echo "commit-msg rejected: use Conventional Commits format."
+  echo "  <type>(optional-scope): <short summary>"
+  echo "  types: feat, fix, docs, refactor, test, chore, perf, revert, build, ci"
+  echo "  example: feat(auth): add JWT-based login system"
+  exit 1
+fi
+
+length=$(printf '%s' "$subject" | wc -c | tr -d ' ')
+if [ "$length" -gt 50 ]; then
+  echo "commit-msg rejected: keep the subject line to 50 characters or less (currently $length)."
+  exit 1
+fi

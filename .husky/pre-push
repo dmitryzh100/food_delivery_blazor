@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+case "$branch" in
+  main|master|develop|development|HEAD) exit 0 ;;
+esac
+
+if ! printf '%s' "$branch" | grep -qE '^(feature|bugfix|hotfix|release|docs|refactor|test|chore)/[A-Za-z0-9]+([._-][A-Za-z0-9]+)*$'; then
+  echo "pre-push rejected: branch '$branch' does not follow the naming convention."
+  echo "  use 'type/short-description' (lowercase type, hyphen-separated)"
+  echo "  types: feature, bugfix, hotfix, release, docs, refactor, test, chore"
+  echo "  examples: feature/payment-integration, feature/FE-2-add-login"
+  exit 1
+fi
