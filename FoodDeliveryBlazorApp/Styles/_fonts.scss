@@ -1,0 +1,33 @@
+$dir: '../fonts';
+
+@font-face {
+    font-family: 'Sofia Pro';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('#{$dir}/SofiaProRegular.woff2') format('woff2'), url('#{$dir}/SofiaProRegular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Sofia Pro';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('#{$dir}/SofiaProMedium.woff2') format('woff2'), url('#{$dir}/SofiaProMedium.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Sofia Pro';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('#{$dir}/SofiaProSemiBold.woff2') format('woff2'), url('#{$dir}/SofiaProSemiBold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Sofia Pro';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('#{$dir}/SofiaProBold.woff2') format('woff2'), url('#{$dir}/SofiaProBold.woff') format('woff');
+}
