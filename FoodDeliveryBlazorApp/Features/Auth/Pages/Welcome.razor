@@ -1,0 +1,35 @@
+@page "/"
+@layout AuthLayout
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+
+<PageTitle>Welcome to FoodHub</PageTitle>
+
+<section class="welcome" aria-labelledby="welcome-heading">
+    <a class="welcome-skip" href="login" aria-label="Skip onboarding and go to login">Skip</a>
+
+    <header class="welcome-heading">
+        <h1 id="welcome-heading" class="welcome-title">Welcome to <span class="brand">FoodHub</span></h1>
+        <p class="welcome-subtitle">Your favourite foods delivered fast at your door.</p>
+    </header>
+
+    <div class="welcome-bottom">
+        <SocialAuthButtons DividerText="sign in with" />
+
+        <a class="btn-outline welcome-start" href="signup">Start with email or phone</a>
+
+        <p class="auth-switch">Already have an account? <a class="link" href="login">Sign In</a></p>
+    </div>
+</section>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState state = await AuthStateProvider.GetAuthenticationStateAsync();
+
+        if (state.User.Identity?.IsAuthenticated == true)
+        {
+            Navigation.NavigateTo("home");
+        }
+    }
+}

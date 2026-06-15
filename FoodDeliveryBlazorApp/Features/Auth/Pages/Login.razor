@@ -1,0 +1,114 @@
+@page "/login"
+@layout AuthLayout
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+
+<PageTitle>Login</PageTitle>
+
+<section class="auth-page" aria-labelledby="login-heading">
+    <div class="auth-decor" aria-hidden="true">
+        <span class="ellipse ellipse-ring"></span>
+        <span class="ellipse ellipse-peach"></span>
+        <span class="ellipse ellipse-orange"></span>
+    </div>
+
+    <button type="button" class="back-btn" @onclick="GoBack" aria-label="Go back to welcome">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <polyline points="15 18 9 12 15 6" />
+        </svg>
+    </button>
+
+    <h1 id="login-heading" class="auth-title">Login</h1>
+
+    <EditForm EditContext="_editContext" OnValidSubmit="HandleLoginAsync">
+        <DataAnnotationsValidator />
+
+        <div class="field">
+            <label class="field-label" for="login-email">E-mail</label>
+            <InputText id="login-email"
+                       class="form-input"
+                       @bind-Value="_model.Email"
+                       placeholder="Your email or phone"
+                       autocomplete="username"
+                       inputmode="email"
+                       aria-describedby="login-email-error"
+                       aria-invalid="@AriaInvalid(() => _model.Email)" />
+            <div class="validation-region" id="login-email-error" aria-live="polite">
+                <ValidationMessage For="@(() => _model.Email)" />
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="login-password">Password</label>
+            <PasswordField Id="login-password"
+                           @bind-Value="_model.Password"
+                           Placeholder="Password"
+                           Autocomplete="current-password"
+                           AriaDescribedBy="login-password-error"
+                           AriaInvalid="@AriaInvalid(() => _model.Password)" />
+            <div class="validation-region" id="login-password-error" aria-live="polite">
+                <ValidationMessage For="@(() => _model.Password)" />
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(_error))
+        {
+            <p class="auth-error" role="alert">@_error</p>
+        }
+
+        <button type="button" class="forgot" @onclick="OnForgotPassword">Forgot password?</button>
+
+        <button type="submit" class="btn-primary" disabled="@_isBusy">
+            @(_isBusy ? "Logging in..." : "Login")
+        </button>
+    </EditForm>
+
+    <p class="auth-switch">Don't have an account? <a class="link" href="signup">Sign Up</a></p>
+
+    <SocialAuthButtons DividerText="Sign in with" />
+</section>
+
+@code {
+    private readonly LoginModel _model = new();
+    private EditContext _editContext = default!;
+    private bool _isBusy;
+    private string? _error;
+
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(_model);
+    }
+
+    private async Task HandleLoginAsync()
+    {
+        _isBusy = true;
+        _error = null;
+
+        AuthResult result = await AuthService.LoginAsync(_model);
+
+        _isBusy = false;
+
+        if (result.Succeeded)
+        {
+            Navigation.NavigateTo("home");
+
+            return;
+        }
+
+        _error = result.Error;
+    }
+
+    private string AriaInvalid<T>(Expression<Func<T>> field)
+    {
+        return _editContext.GetValidationMessages(FieldIdentifier.Create(field)).Any() ? "true" : "false";
+    }
+
+    private void OnForgotPassword()
+    {
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("");
+    }
+}

@@ -3,25 +3,47 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FoodDeliveryBlazorApp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>FoodHub</title>
     <base href="/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <meta name="theme-color" content="#FE724C" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="FoodDeliveryBlazorApp.styles.css" rel="stylesheet" />
     <link href="manifest.webmanifest" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <style>
+        .splash {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            background: #FE724C;
+        }
+
+        .splash-logo {
+            width: 152px;
+            height: auto;
+            margin-bottom: -65px;
+        }
+
+        .splash-title {
+            width: 150px;
+            height: auto;
+        }
+    </style>
 </head>
 
 <body>
     <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
+        <div class="splash" role="status" aria-live="polite" aria-label="Loading FoodHub">
+            <img class="splash-logo" src="images/splash_logo.svg" alt="" />
+            <img class="splash-title" src="images/splash_logo_app_name.svg" alt="" />
+        </div>
     </div>
 
     <div id="blazor-error-ui">
