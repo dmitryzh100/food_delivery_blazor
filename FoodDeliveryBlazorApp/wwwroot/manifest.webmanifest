@@ -1,11 +1,11 @@
 {
-  "name": "FoodDeliveryBlazorApp",
-  "short_name": "FoodDeliveryBlazorApp",
+  "name": "FoodHub",
+  "short_name": "FoodHub",
   "id": "./",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#03173d",
+  "background_color": "#FE724C",
+  "theme_color": "#FE724C",
   "prefer_related_applications": false,
   "icons": [
     {

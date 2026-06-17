@@ -1,7 +1,39 @@
-﻿@page "/"
+@page "/home"
+@attribute [Authorize]
+@layout MainLayout
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
 
-<PageTitle>Home</PageTitle>
+<PageTitle>FoodHub</PageTitle>
 
-<h1>Hello, world!</h1>
+<section class="home" aria-labelledby="home-heading">
+    <div class="home-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
+    </div>
 
-Welcome to your new app.
+    <h1 id="home-heading" class="home-title">You're all set!</h1>
+
+    <AuthorizeView>
+        <Authorized>
+            <p class="home-user">Signed in as <strong>@context.User.Identity?.Name</strong></p>
+        </Authorized>
+    </AuthorizeView>
+
+    <p class="home-note">
+        Your access &amp; refresh tokens are stored in <code>localStorage</code>,
+        so you'll stay signed in next time you open the app.
+    </p>
+
+    <button type="button" class="btn-primary" @onclick="LogoutAsync">Log out</button>
+</section>
+
+@code {
+    private async Task LogoutAsync()
+    {
+        await AuthService.LogoutAsync();
+
+        Navigation.NavigateTo("login");
+    }
+}

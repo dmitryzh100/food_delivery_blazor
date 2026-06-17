@@ -1,0 +1,111 @@
+@page "/signup"
+@layout AuthLayout
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+
+<PageTitle>Sign Up</PageTitle>
+
+<section class="auth-page" aria-labelledby="signup-heading">
+    <div class="auth-decor" aria-hidden="true">
+        <span class="ellipse ellipse-ring"></span>
+        <span class="ellipse ellipse-peach"></span>
+        <span class="ellipse ellipse-orange"></span>
+    </div>
+
+    <h1 id="signup-heading" class="auth-title">Sign Up</h1>
+
+    <EditForm EditContext="_editContext" OnValidSubmit="HandleSignUpAsync">
+        <DataAnnotationsValidator />
+
+        <div class="field">
+            <label class="field-label" for="signup-name">Full name</label>
+            <InputText id="signup-name"
+                       class="form-input"
+                       @bind-Value="_model.FullName"
+                       placeholder="Your full name"
+                       autocomplete="name"
+                       aria-describedby="signup-name-error"
+                       aria-invalid="@AriaInvalid(() => _model.FullName)" />
+            <div class="validation-region" id="signup-name-error" aria-live="polite">
+                <ValidationMessage For="@(() => _model.FullName)" />
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="signup-email">E-mail</label>
+            <InputText id="signup-email"
+                       class="form-input"
+                       @bind-Value="_model.Email"
+                       placeholder="Your email"
+                       autocomplete="email"
+                       inputmode="email"
+                       aria-describedby="signup-email-error"
+                       aria-invalid="@AriaInvalid(() => _model.Email)" />
+            <div class="validation-region" id="signup-email-error" aria-live="polite">
+                <ValidationMessage For="@(() => _model.Email)" />
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="signup-password">Password</label>
+            <PasswordField Id="signup-password"
+                           @bind-Value="_model.Password"
+                           Placeholder="Password"
+                           Autocomplete="new-password"
+                           AriaDescribedBy="signup-password-error"
+                           AriaInvalid="@AriaInvalid(() => _model.Password)" />
+            <div class="validation-region" id="signup-password-error" aria-live="polite">
+                <ValidationMessage For="@(() => _model.Password)" />
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(_error))
+        {
+            <p class="auth-error" role="alert">@_error</p>
+        }
+
+        <button type="submit" class="btn-primary signup-submit" disabled="@_isBusy">
+            @(_isBusy ? "Creating account..." : "Sign Up")
+        </button>
+    </EditForm>
+
+    <p class="auth-switch">Already have an account? <a class="link" href="login">Login</a></p>
+
+    <SocialAuthButtons DividerText="Sign up with" />
+</section>
+
+@code {
+    private readonly SignUpModel _model = new();
+    private EditContext _editContext = default!;
+    private bool _isBusy;
+    private string? _error;
+
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(_model);
+    }
+
+    private async Task HandleSignUpAsync()
+    {
+        _isBusy = true;
+        _error = null;
+
+        AuthResult result = await AuthService.SignUpAsync(_model);
+
+        _isBusy = false;
+
+        if (result.Succeeded)
+        {
+            Navigation.NavigateTo("home");
+
+            return;
+        }
+
+        _error = result.Error;
+    }
+
+    private string AriaInvalid<T>(Expression<Func<T>> field)
+    {
+        return _editContext.GetValidationMessages(FieldIdentifier.Create(field)).Any() ? "true" : "false";
+    }
+}

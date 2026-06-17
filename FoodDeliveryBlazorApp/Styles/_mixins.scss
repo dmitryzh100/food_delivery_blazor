@@ -1,0 +1,28 @@
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin size($width, $height: $width) {
+    width: $width;
+    height: $height;
+}
+
+@mixin typography($weight, $size, $line-height: 1, $spacing: 0) {
+    font-weight: $weight;
+    font-size: $size;
+    line-height: $line-height;
+    letter-spacing: $spacing;
+}
+
+@mixin reset-button {
+    border: none;
+    background: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+@function soft-shadow($x, $y, $blur, $color, $alpha) {
+    @return $x $y $blur rgba($color, $alpha);
+}

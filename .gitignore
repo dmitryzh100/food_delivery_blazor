@@ -482,3 +482,7 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# AspNetCore.SassCompiler output (compiled from .scss sources)
+FoodDeliveryBlazorApp/wwwroot/css/app.css
+**/*.razor.css
