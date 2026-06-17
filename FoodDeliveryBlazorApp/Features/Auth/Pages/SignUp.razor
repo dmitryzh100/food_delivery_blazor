@@ -1,4 +1,4 @@
-@page "/signup"
+@attribute [Route(AppRoutes.SignUp)]
 @layout AuthLayout
 @inject IAuthService AuthService
 @inject NavigationManager Navigation
@@ -69,7 +69,7 @@
         </button>
     </EditForm>
 
-    <p class="auth-switch">Already have an account? <a class="link" href="login">Login</a></p>
+    <p class="auth-switch">Already have an account? <a class="link" href="@AppRoutes.Login">Login</a></p>
 
     <SocialAuthButtons DividerText="Sign up with" />
 </section>
@@ -96,7 +96,7 @@
 
         if (result.Succeeded)
         {
-            Navigation.NavigateTo("home");
+            Navigation.NavigateTo(AppRoutes.Home);
 
             return;
         }

@@ -1,4 +1,4 @@
-@page "/home"
+@attribute [Route(AppRoutes.Home)]
 @attribute [Authorize]
 @layout MainLayout
 @inject IAuthService AuthService
@@ -34,6 +34,6 @@
     {
         await AuthService.LogoutAsync();
 
-        Navigation.NavigateTo("login");
+        Navigation.NavigateTo(AppRoutes.Login);
     }
 }

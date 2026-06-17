@@ -1,4 +1,4 @@
-@page "/"
+@attribute [Route(AppRoutes.Welcome)]
 @layout AuthLayout
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthStateProvider
@@ -6,7 +6,7 @@
 <PageTitle>Welcome to FoodHub</PageTitle>
 
 <section class="welcome" aria-labelledby="welcome-heading">
-    <a class="welcome-skip" href="login" aria-label="Skip onboarding and go to login">Skip</a>
+    <a class="welcome-skip" href="@AppRoutes.Login" aria-label="Skip onboarding and go to login">Skip</a>
 
     <header class="welcome-heading">
         <h1 id="welcome-heading" class="welcome-title">Welcome to <span class="brand">FoodHub</span></h1>
@@ -16,9 +16,9 @@
     <div class="welcome-bottom">
         <SocialAuthButtons DividerText="sign in with" />
 
-        <a class="btn-outline welcome-start" href="signup">Start with email or phone</a>
+        <a class="btn-outline welcome-start" href="@AppRoutes.Onboarding">Start with email or phone</a>
 
-        <p class="auth-switch">Already have an account? <a class="link" href="login">Sign In</a></p>
+        <p class="auth-switch">Already have an account? <a class="link" href="@AppRoutes.Login">Sign In</a></p>
     </div>
 </section>
 
@@ -29,7 +29,7 @@
 
         if (state.User.Identity?.IsAuthenticated == true)
         {
-            Navigation.NavigateTo("home");
+            Navigation.NavigateTo(AppRoutes.Home);
         }
     }
 }
