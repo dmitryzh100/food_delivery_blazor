@@ -1,0 +1,131 @@
+@attribute [Route(AppRoutes.Onboarding)]
+@layout AuthLayout
+@inject NavigationManager Navigation
+
+<PageTitle>Get started with FoodHub</PageTitle>
+
+<section class="onboarding" aria-roledescription="carousel" aria-label="FoodHub onboarding">
+    <h1 class="sr-only">Get started with FoodHub</h1>
+
+    <MudCarousel TData="OnboardingSlide"
+                 ItemsSource="_slides"
+                 @bind-SelectedIndex="_index"
+                 Class="onboarding-carousel"
+                 ShowArrows="false"
+                 ShowBullets="false"
+                 EnableSwipeGesture="true"
+                 AutoCycle="false">
+        <ItemTemplate Context="slide">
+            <article class="onboarding-slide"
+                     aria-roledescription="slide"
+                     aria-label="Step @(slide.Index + 1) of @_slides.Count">
+                <div class="onboarding-stage">
+                    <OnboardingHero Photo="@slide.Photo"
+                                    PhotoAlt="@slide.PhotoAlt"
+                                    BadgeShape="slide.BadgeShape"
+                                    PhotoFit="slide.PhotoFit"
+                                    Icons="slide.Icons" />
+                </div>
+
+                <div class="onboarding-copy">
+                    <div class="onboarding-bullets" aria-hidden="true">
+                        @for (int dot = 0; dot < _slides.Count; dot++)
+                        {
+                            <span class="bullet @(dot == slide.Index ? "bullet--active" : null)"></span>
+                        }
+                    </div>
+
+                    <h2 class="onboarding-title">@slide.Title</h2>
+                    <p class="onboarding-subtitle">@slide.Subtitle</p>
+                </div>
+            </article>
+        </ItemTemplate>
+    </MudCarousel>
+
+    <button type="button"
+            class="onboarding-next"
+            @onclick="Advance"
+            aria-label="@(IsLastStep ? "Go to sign up" : "Next step")">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+             stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="13 6 19 12 13 18" />
+        </svg>
+    </button>
+</section>
+
+@code {
+    private const string SharedSubtitle = "Our app can send you everywhere, even space. For only $2.99 per month";
+
+    private int _index;
+
+    private readonly List<OnboardingSlide> _slides =
+    [
+        new OnboardingSlide
+        {
+            Index = 0,
+            Photo = "images/onboarding/onboarding_photo_1.png",
+            PhotoAlt = "Person browsing a food delivery menu on a phone",
+            Title = "Browse your menu and order directly",
+            Subtitle = SharedSubtitle,
+            BadgeShape = OrbitBadgeShape.Logo,
+            Icons =
+            [
+                "images/onboarding/icon_starbucks.svg",
+                "images/onboarding/icon_pizza_hut.svg",
+                "images/onboarding/icon_burger_king.svg",
+                "images/onboarding/icon_jimmy_johnes.svg",
+                "images/onboarding/icon_kfc.svg"
+            ]
+        },
+        new OnboardingSlide
+        {
+            Index = 1,
+            Photo = "images/onboarding/onboarding_photo_2.png",
+            PhotoAlt = "A bowl of freshly prepared dumplings",
+            Title = "Even to space with us! Together",
+            Subtitle = SharedSubtitle,
+            BadgeShape = OrbitBadgeShape.Photo,
+            PhotoFit = HeroPhotoFit.Centered,
+            Icons =
+            [
+                "images/onboarding/icon_meal_1.png",
+                "images/onboarding/icon_meal_2.png",
+                "images/onboarding/icon_meal_3.png",
+                "images/onboarding/icon_meal_4.png",
+                "images/onboarding/icon_meal_5.png"
+            ]
+        },
+        new OnboardingSlide
+        {
+            Index = 2,
+            Photo = "images/onboarding/onboarding_photo_3.png",
+            PhotoAlt = "A courier holding a bag of groceries",
+            Title = "Pickup delivery at your door",
+            Subtitle = SharedSubtitle,
+            BadgeShape = OrbitBadgeShape.Photo,
+            Icons =
+            [
+                "images/onboarding/icon_delivery_1.png",
+                "images/onboarding/icon_delivery_2.png",
+                "images/onboarding/icon_delivery_3.png",
+                "images/onboarding/icon_delivery_4.png",
+                "images/onboarding/icon_delivery_5.png"
+            ]
+        }
+    ];
+
+    private bool IsLastStep => _index >= _slides.Count - 1;
+
+    private void Advance()
+    {
+        if (IsLastStep)
+        {
+            Navigation.NavigateTo(AppRoutes.SignUp);
+
+            return;
+        }
+
+        _index += 1;
+    }
+}

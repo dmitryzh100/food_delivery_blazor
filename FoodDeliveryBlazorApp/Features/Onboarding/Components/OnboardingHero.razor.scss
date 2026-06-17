@@ -1,0 +1,111 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'sass:map';
+@use 'sass:math';
+
+$frame: 375;
+$ring: 310;
+$disc: 226;
+$inset: math.div($ring - $disc, 2);
+$radius: math.div($disc, 2);
+
+$badge-slots:
+    (slot: 1, x: 208, y: -6, size: 56.61),
+    (slot: 2, x: 27.5, y: 105, size: 32),
+    (slot: 3, x: 236.5, y: 188, size: 42),
+    (slot: 4, x: 139.5, y: 250, size: 31),
+    (slot: 5, x: 26.5, y: 253, size: 40.43);
+
+.hero {
+    --u: min(1px, #{math.div(100, $frame)}vw);
+    position: relative;
+    flex: 0 0 auto;
+    @include size(calc(#{$ring} * var(--u)));
+    margin: 0 auto;
+}
+
+.hero__ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid #2DBC48;
+}
+
+.hero__disc {
+    position: absolute;
+    top: calc(#{$inset} * var(--u));
+    left: calc(#{$inset} * var(--u));
+    @include size(calc(#{$disc} * var(--u)));
+    border-radius: 50%;
+    background: $outline-border;
+}
+
+.hero__photo {
+    position: absolute;
+    left: calc(#{$inset} * var(--u));
+    bottom: calc(#{$inset} * var(--u));
+    @include flex-center;
+    align-items: flex-end;
+    width: calc(#{$disc} * var(--u));
+    height: calc(302 * var(--u));
+    overflow: hidden;
+    border-bottom-left-radius: calc(#{$radius} * var(--u)) calc(#{$radius} * var(--u));
+    border-bottom-right-radius: calc(#{$radius} * var(--u)) calc(#{$radius} * var(--u));
+    z-index: 2;
+
+    img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+}
+
+.hero__photo--centered {
+    inset: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border-radius: 0;
+    clip-path: url(#hero-bowl-clip);
+
+    img {
+        position: absolute;
+        top: calc(12 * var(--u));
+        left: calc(-26 * var(--u));
+        width: calc(364 * var(--u));
+        max-width: none;
+        height: auto;
+    }
+}
+
+.hero__badge {
+    @include flex-center;
+    position: absolute;
+    z-index: 3;
+    border-radius: 26%;
+    background: $bg;
+    box-shadow: 0 calc(8 * var(--u)) calc(20 * var(--u)) rgba(0, 0, 0, 0.12);
+
+    img {
+        display: block;
+    }
+}
+
+.hero__badge--logo img {
+    @include size(64%);
+    object-fit: contain;
+}
+
+.hero__badge--photo img {
+    @include size(80%);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+@each $slot in $badge-slots {
+    .hero__badge--slot#{map.get($slot, slot)} {
+        left: calc(#{map.get($slot, x)} * var(--u));
+        top: calc(#{map.get($slot, y)} * var(--u));
+        @include size(calc(#{map.get($slot, size)} * var(--u)));
+    }
+}

@@ -1,0 +1,47 @@
+<div class="hero">
+    @if (PhotoFit == HeroPhotoFit.Centered)
+    {
+        <svg width="0" height="0" class="hero__defs" aria-hidden="true" focusable="false">
+            <defs>
+                <clipPath id="hero-bowl-clip" clipPathUnits="objectBoundingBox">
+                    <path d="M-0.1,-0.1 H1.12 V0.5 H0.86452 A0.36452,0.36452 0 0 1 0.13548,0.5 H-0.1 Z" />
+                </clipPath>
+            </defs>
+        </svg>
+    }
+
+    <span class="hero__ring"></span>
+    <span class="hero__disc"></span>
+
+    <div class="hero__photo hero__photo--@PhotoFitModifier">
+        <img src="@Photo" alt="@PhotoAlt" />
+    </div>
+
+    @for (int slot = 0; slot < Icons.Count; slot++)
+    {
+        <span class="hero__badge hero__badge--@Modifier hero__badge--slot@(slot + 1)">
+            <img src="@Icons[slot]" alt="" />
+        </span>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Photo { get; set; } = string.Empty;
+
+    [Parameter]
+    public string PhotoAlt { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public OrbitBadgeShape BadgeShape { get; set; }
+
+    [Parameter]
+    public HeroPhotoFit PhotoFit { get; set; } = HeroPhotoFit.Portrait;
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<string> Icons { get; set; } = [];
+
+    private string Modifier => BadgeShape == OrbitBadgeShape.Logo ? "logo" : "photo";
+
+    private string PhotoFitModifier => PhotoFit == HeroPhotoFit.Centered ? "centered" : "portrait";
+}
