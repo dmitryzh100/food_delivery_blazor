@@ -1,0 +1,58 @@
+<div class="side-menu @(Open ? "side-menu--open" : null)">
+    <button type="button" class="side-menu__scrim" aria-label="Close menu" tabindex="@(Open ? 0 : -1)" @onclick="OnClose"></button>
+
+    <aside class="side-menu__panel" aria-label="Account menu" aria-hidden="@(Open ? "false" : "true")">
+        <div class="side-menu__profile">
+            <UserAvatar Size="90" Shape="AvatarShape.Circle" />
+            <h2 class="side-menu__name">@UserName</h2>
+            <p class="side-menu__email">@UserEmail</p>
+        </div>
+
+        <nav class="side-menu__nav" aria-label="Account navigation">
+            @foreach (MenuItem item in _items)
+            {
+                <button type="button" class="side-menu__item" tabindex="@(Open ? 0 : -1)">
+                    <span class="side-menu__item-icon">
+                        <img src="@item.IconSrc" alt="" />
+                    </span>
+                    <span class="side-menu__item-label">@item.Label</span>
+                </button>
+            }
+        </nav>
+
+        <button type="button" class="side-menu__logout" @onclick="OnLogout" tabindex="@(Open ? 0 : -1)">
+            <MudIcon Icon="@Icons.Material.Outlined.PowerSettingsNew" Size="Size.Small" Color="Color.Inherit" />
+            <span>Log Out</span>
+        </button>
+    </aside>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public bool Open { get; set; }
+
+    [Parameter, EditorRequired]
+    public string UserName { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string UserEmail { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    [Parameter]
+    public EventCallback OnLogout { get; set; }
+
+    private readonly IReadOnlyList<MenuItem> _items =
+    [
+        new MenuItem("My Orders", "images/menu/icon_my_orders.svg"),
+        new MenuItem("My Profile", "images/menu/icon_profile.png"),
+        new MenuItem("Delivery Address", "images/menu/icon_location.svg"),
+        new MenuItem("Payment Methods", "images/menu/icon_wallet.svg"),
+        new MenuItem("Contact Us", "images/menu/icon_envelope.svg"),
+        new MenuItem("Settings", "images/menu/icon_gear.svg"),
+        new MenuItem("Helps & FAQs", "images/menu/icon_question.svg"),
+    ];
+
+    private sealed record MenuItem(string Label, string IconSrc);
+}

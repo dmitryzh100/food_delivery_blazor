@@ -1,0 +1,15 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.home {
+    position: relative;
+    min-height: 100vh;
+    background: $bg;
+    overflow: hidden;
+}
+
+.home__scene {
+    min-height: 100vh;
+    padding: 0 24px;
+    background: $bg;
+}

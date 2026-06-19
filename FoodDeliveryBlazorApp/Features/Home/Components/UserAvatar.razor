@@ -1,0 +1,15 @@
+<span class="avatar avatar--@ShapeModifier" style="@SizeStyle">
+    <img src="images/avatar.png" alt="" />
+</span>
+
+@code {
+    [Parameter]
+    public int Size { get; set; } = 40;
+
+    [Parameter]
+    public AvatarShape Shape { get; set; } = AvatarShape.Circle;
+
+    private string SizeStyle => $"--avatar-size: {Size}px;";
+
+    private string ShapeModifier => Shape == AvatarShape.Circle ? "circle" : "rounded";
+}
