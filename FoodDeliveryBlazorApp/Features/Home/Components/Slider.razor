@@ -1,0 +1,20 @@
+@inject IJSRuntime JS
+
+<div class="slider" @ref="_row">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private ElementReference _row;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("foodhubSlider.enableDrag", _row);
+        }
+    }
+}

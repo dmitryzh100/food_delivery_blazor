@@ -1,0 +1,28 @@
+<div class="chips" role="listbox" aria-label="Food categories" aria-multiselectable="true">
+    @foreach (CategoryChip chip in Categories)
+    {
+        bool isSelected = Selected.Contains(chip.Category);
+
+        <button type="button"
+                role="option"
+                aria-selected="@(isSelected ? "true" : "false")"
+                class="chip @(isSelected ? "chip--selected" : null)"
+                @onclick="() => OnToggle.InvokeAsync(chip.Category)">
+            <span class="chip__badge">
+                <span class="chip__icon" style="background-size: @chip.SpriteSize; background-position: @chip.SpritePosition;"></span>
+            </span>
+            <span class="chip__label">@chip.Label</span>
+        </button>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<CategoryChip> Categories { get; set; } = [];
+
+    [Parameter]
+    public IReadOnlySet<FoodCategory> Selected { get; set; } = new HashSet<FoodCategory>();
+
+    [Parameter]
+    public EventCallback<FoodCategory> OnToggle { get; set; }
+}

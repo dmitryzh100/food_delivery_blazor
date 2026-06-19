@@ -1,0 +1,61 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.chips {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 4px 6px 6px;
+    margin: 0 -24px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.chip {
+    @include reset-button;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+    padding: 11px 6px 13px;
+    border-radius: 34px;
+    border: 1px solid $border;
+    background: $bg;
+    transition: background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.chip__badge {
+    @include flex-center;
+    @include size(50px);
+    border-radius: 50%;
+    background: $bg;
+    overflow: hidden;
+}
+
+.chip__icon {
+    @include size(50px);
+    background-image: url('/images/home/categories.png');
+    background-repeat: no-repeat;
+}
+
+.chip__label {
+    @include typography(500, 13px);
+    white-space: nowrap;
+    color: $text-subtle;
+}
+
+.chip--selected {
+    border-color: transparent;
+    background: var(--color-primary);
+    box-shadow: soft-shadow(0px, 20px, 30px, $brand, 0.25);
+
+    .chip__label {
+        color: $on-dark;
+    }
+}

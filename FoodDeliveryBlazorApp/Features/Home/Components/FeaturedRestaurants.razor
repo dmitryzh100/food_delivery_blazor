@@ -1,0 +1,23 @@
+<section class="featured">
+    <header class="featured__head">
+        <h2 class="featured__title">Featured restaurants</h2>
+        <a class="featured__all" href="#">View All &rsaquo;</a>
+    </header>
+
+    <Slider>
+        @foreach (Restaurant restaurant in Restaurants)
+        {
+            <RestaurantCard @key="restaurant" Restaurant="restaurant" />
+        }
+    </Slider>
+
+    @if (Restaurants.Count == 0)
+    {
+        <p class="featured__empty">No restaurants found.</p>
+    }
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<Restaurant> Restaurants { get; set; } = [];
+}

@@ -1,0 +1,22 @@
+<section class="popular">
+    <header class="popular__head">
+        <h2 class="popular__title">Popular items</h2>
+    </header>
+
+    <Slider>
+        @foreach (PopularItem item in Items)
+        {
+            <PopularItemCard @key="item" Item="item" />
+        }
+    </Slider>
+
+    @if (Items.Count == 0)
+    {
+        <p class="popular__empty">No items found.</p>
+    }
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<PopularItem> Items { get; set; } = [];
+}

@@ -1,0 +1,27 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.slider {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 6px 24px 8px;
+    margin: 0 -24px;
+    scroll-snap-type: x proximity;
+    scroll-padding-left: 24px;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    &.is-dragging {
+        cursor: grabbing;
+        scroll-snap-type: none;
+        scroll-behavior: auto;
+        user-select: none;
+    }
+}

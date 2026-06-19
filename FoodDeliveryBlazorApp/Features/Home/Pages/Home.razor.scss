@@ -10,6 +10,12 @@
 
 .home__scene {
     min-height: 100vh;
-    padding: 0 24px;
+    padding: 0 24px calc(96px + env(safe-area-inset-bottom, 0px));
     background: $bg;
+}
+
+.home__title {
+    margin: 18px 0 22px;
+    @include typography(700, 30px, 1.18);
+    color: var(--color-text);
 }
