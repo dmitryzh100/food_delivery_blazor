@@ -1,0 +1,74 @@
+@attribute [Route(AppRoutes.Home)]
+@attribute [Authorize]
+@layout MainLayout
+@using System.Security.Claims
+@inject IAuthService AuthService
+@inject IAddressService AddressService
+@inject NavigationManager Navigation
+
+<PageTitle>FoodHub</PageTitle>
+
+<div class="home">
+    <SideMenu Open="_isMenuOpen"
+              UserName="@_userName"
+              UserEmail="@_userEmail"
+              OnClose="CloseMenu"
+              OnLogout="LogoutAsync" />
+
+    <div class="home__scene">
+        <HomeHeader Addresses="_addresses"
+                    SelectedAddress="_selectedAddress"
+                    OnMenuClick="OpenMenu"
+                    OnProfileClick="OpenMenu"
+                    OnAddressSelected="SelectAddress" />
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthState { get; set; }
+
+    private string _userName = "User";
+    private string _userEmail = string.Empty;
+    private bool _isMenuOpen;
+
+    private IReadOnlyList<DeliveryAddress> _addresses = [];
+    private DeliveryAddress? _selectedAddress;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _addresses = await AddressService.GetAddressesAsync();
+        _selectedAddress = _addresses.FirstOrDefault();
+
+        if (AuthState is not null)
+        {
+            AuthenticationState state = await AuthState;
+            ClaimsPrincipal user = state.User;
+
+            _userName = user.Identity?.Name ?? "User";
+            _userEmail = user.FindFirst(ClaimTypes.Email)?.Value ?? string.Empty;
+        }
+    }
+
+    private void OpenMenu()
+    {
+        _isMenuOpen = true;
+    }
+
+    private void CloseMenu()
+    {
+        _isMenuOpen = false;
+    }
+
+    private void SelectAddress(DeliveryAddress address)
+    {
+        _selectedAddress = address;
+    }
+
+    private async Task LogoutAsync()
+    {
+        await AuthService.LogoutAsync();
+
+        Navigation.NavigateTo(AppRoutes.Login);
+    }
+}

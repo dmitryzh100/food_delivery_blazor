@@ -1,0 +1,82 @@
+<header class="header">
+    <button type="button" class="header__icon-btn" @onclick="OnMenuClick" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <line x1="4" y1="8" x2="20" y2="8" />
+            <line x1="4" y1="16" x2="13" y2="16" />
+        </svg>
+    </button>
+
+    <div class="delivery">
+        <button type="button"
+                class="delivery__toggle"
+                @onclick="ToggleDropdown"
+                aria-haspopup="listbox"
+                aria-expanded="@(_isOpen ? "true" : "false")">
+            <span class="delivery__caption">
+                Deliver to
+                <svg class="delivery__caret @(_isOpen ? "delivery__caret--open" : null)" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </span>
+            <span class="delivery__address">@SelectedAddress?.FullAddress</span>
+        </button>
+
+        @if (_isOpen)
+        {
+            <button type="button" class="delivery__backdrop" aria-label="Close address list" @onclick="Close"></button>
+            <ul class="delivery__menu" role="listbox" aria-label="Delivery address">
+                @foreach (DeliveryAddress address in Addresses)
+                {
+                    <li role="option" aria-selected="@(address == SelectedAddress ? "true" : "false")">
+                        <button type="button"
+                                class="delivery__option @(address == SelectedAddress ? "delivery__option--active" : null)"
+                                @onclick="() => SelectAsync(address)">
+                            <span class="delivery__option-label">@address.Tag</span>
+                            <span class="delivery__option-line">@address.FullAddress</span>
+                        </button>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+
+    <button type="button" class="header__profile" @onclick="OnProfileClick" aria-label="Open account menu">
+        <UserAvatar Size="38" Shape="AvatarShape.Rounded" />
+    </button>
+</header>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<DeliveryAddress> Addresses { get; set; } = [];
+
+    [Parameter, EditorRequired]
+    public DeliveryAddress? SelectedAddress { get; set; }
+
+    [Parameter]
+    public EventCallback OnMenuClick { get; set; }
+
+    [Parameter]
+    public EventCallback OnProfileClick { get; set; }
+
+    [Parameter]
+    public EventCallback<DeliveryAddress> OnAddressSelected { get; set; }
+
+    private bool _isOpen;
+
+    private void ToggleDropdown()
+    {
+        _isOpen = !_isOpen;
+    }
+
+    private void Close()
+    {
+        _isOpen = false;
+    }
+
+    private async Task SelectAsync(DeliveryAddress address)
+    {
+        _isOpen = false;
+
+        await OnAddressSelected.InvokeAsync(address);
+    }
+}
