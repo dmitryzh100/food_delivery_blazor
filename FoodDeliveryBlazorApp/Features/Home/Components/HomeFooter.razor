@@ -1,0 +1,28 @@
+<nav class="footer" aria-label="Primary">
+    @foreach (FooterTab tab in _tabs)
+    {
+        <button type="button"
+                class="footer__item footer__item--@tab.Kind"
+                aria-label="@tab.Label"
+                aria-current="@(tab.Kind == "active" ? "page" : null)">
+            <span class="footer__icon" style="--icon: url('@tab.Icon')"></span>
+            @if (tab.Badge is not null)
+            {
+                <span class="footer__badge"><span class="footer__badge-num">@tab.Badge</span></span>
+            }
+        </button>
+    }
+</nav>
+
+@code {
+    private sealed record FooterTab(string Label, string Icon, string Kind, string? Badge = null);
+
+    private readonly IReadOnlyList<FooterTab> _tabs =
+    [
+        new FooterTab("Explore", "images/home/icon_compass.svg", "active"),
+        new FooterTab("Nearby", "images/home/icon_location_2.svg", "default"),
+        new FooterTab("Cart", "images/home/icon_cart.svg", "accent", "4"),
+        new FooterTab("Favorites", "images/home/icon_heart.svg", "default"),
+        new FooterTab("Notifications", "images/home/icon_bell.svg", "default", "6"),
+    ];
+}

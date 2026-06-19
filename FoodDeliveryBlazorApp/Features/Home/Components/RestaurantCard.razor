@@ -1,0 +1,71 @@
+<article class="rcard">
+    <div class="rcard__media">
+        <img class="rcard__image" src="@Restaurant.ImageSrc" alt="@Restaurant.Name" loading="lazy" />
+
+        <span class="rcard__rating">
+            <svg class="rcard__star" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M12 2.5l2.95 5.98 6.6.96-4.77 4.65 1.13 6.57L12 17.55l-5.91 3.11 1.13-6.57L2.45 9.44l6.6-.96L12 2.5z" />
+            </svg>
+            <span class="rcard__rating-value">@Restaurant.Rating.ToString("0.0", CultureInfo.InvariantCulture)</span>
+            <span class="rcard__rating-count">(@Restaurant.ReviewCount)</span>
+        </span>
+
+        <button type="button"
+                class="rcard__fav @(_isFavorite ? "rcard__fav--on" : null)"
+                aria-pressed="@(_isFavorite ? "true" : "false")"
+                aria-label="@(_isFavorite ? "Remove from favorites" : "Add to favorites")"
+                @onclick="ToggleFavorite">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M12 21s-7.5-4.9-10-9.2C.4 8.8 1.7 5.3 4.9 4.6c2-.4 3.9.5 5.1 2 1.2-1.5 3.1-2.4 5.1-2 3.2.7 4.5 4.2 2.9 7.2C19.5 16.1 12 21 12 21z" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="rcard__body">
+        <h3 class="rcard__name">
+            @Restaurant.Name
+            @if (Restaurant.IsVerified)
+            {
+                <svg class="rcard__verified" viewBox="0 0 24 24" width="15" height="15" aria-label="Verified" role="img">
+                    <circle cx="12" cy="12" r="11" fill="#37B5F4" />
+                    <path d="M7 12.4l3 3 7-7" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            }
+        </h3>
+
+        <div class="rcard__meta">
+            <span class="rcard__meta-item rcard__meta-item--accent">
+                <img src="images/home/icon_devivery.svg" alt="" width="15" height="15" />
+                @Restaurant.Delivery
+            </span>
+            <span class="rcard__meta-item">
+                <img src="images/home/icon_clock.svg" alt="" width="13" height="13" />
+                @Restaurant.DeliveryTime
+            </span>
+        </div>
+
+        <div class="rcard__tags">
+            @foreach (string tag in Restaurant.Tags)
+            {
+                <span class="rcard__tag">@tag</span>
+            }
+        </div>
+    </div>
+</article>
+
+@code {
+    [Parameter, EditorRequired]
+    public Restaurant Restaurant { get; set; } = default!;
+
+    private bool _isFavorite;
+
+    protected override void OnInitialized()
+    {
+        _isFavorite = Restaurant.IsFavorite;
+    }
+
+    private void ToggleFavorite()
+    {
+        _isFavorite = !_isFavorite;
+    }
+}

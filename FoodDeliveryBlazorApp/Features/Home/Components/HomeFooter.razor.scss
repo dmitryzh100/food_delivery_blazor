@@ -1,0 +1,65 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 375px;
+    padding: 18px 34px calc(18px + env(safe-area-inset-bottom, 0px));
+    background: $bg;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.footer__item {
+    @include reset-button;
+    @include flex-center;
+    position: relative;
+    @include size(46px);
+    border-radius: 50%;
+    color: #C7C7CF;
+    transition: color 0.18s ease, background 0.18s ease;
+}
+
+.footer__icon {
+    @include size(24px);
+    background-color: currentColor;
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    mask: var(--icon) center / contain no-repeat;
+}
+
+.footer__item--active {
+    color: $on-dark;
+    background: var(--color-primary);
+    box-shadow: soft-shadow(0, 10px, 22px, $brand, 0.34);
+}
+
+.footer__item--accent {
+    color: var(--color-primary);
+}
+
+.footer__badge {
+    @include flex-center;
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 9px;
+    background: #FFC529;
+    @include typography(700, 11px);
+    color: $on-dark;
+}
+
+.footer__badge-num {
+    display: block;
+    // Sofia Pro digits sit ~1px low on this line box; nudge them to optical center.
+    transform: translateY(-1px);
+}

@@ -1,0 +1,37 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 56px;
+    padding: 0 20px;
+    border-radius: 16px;
+    background: #F6F6F6;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.04);
+}
+
+.search__icon {
+    flex-shrink: 0;
+    color: $text-navy;
+}
+
+.search__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--color-text);
+    outline: none;
+
+    &::placeholder {
+        color: #B0B0B8;
+    }
+
+    &::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+    }
+}

@@ -1,0 +1,26 @@
+<article class="pcard">
+    <div class="pcard__media">
+        <img class="pcard__image" src="@Item.ImageSrc" alt="@Item.Name" loading="lazy" />
+
+        <span class="pcard__price">
+            <img class="pcard__price-icon" src="images/home/icon_clock.svg" alt="" width="11" height="12" />
+            @Item.Price.ToString("0.00", CultureInfo.InvariantCulture)
+        </span>
+    </div>
+
+    <div class="pcard__rating">
+        <svg class="pcard__star" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M12 2.5l2.95 5.98 6.6.96-4.77 4.65 1.13 6.57L12 17.55l-5.91 3.11 1.13-6.57L2.45 9.44l6.6-.96L12 2.5z" />
+        </svg>
+        <span class="pcard__rating-value">@Item.Rating.ToString("0.0", CultureInfo.InvariantCulture)</span>
+        <span class="pcard__rating-count">(@Item.ReviewCount)</span>
+    </div>
+
+    <h3 class="pcard__name">@Item.Name</h3>
+    <p class="pcard__desc">@Item.Description</p>
+</article>
+
+@code {
+    [Parameter, EditorRequired]
+    public PopularItem Item { get; set; } = default!;
+}

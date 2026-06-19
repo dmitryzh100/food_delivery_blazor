@@ -1,0 +1,36 @@
+<div class="search">
+    <svg class="search__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <circle cx="11" cy="11" r="7" />
+        <line x1="16.5" y1="16.5" x2="21" y2="21" />
+    </svg>
+
+    <input class="search__input"
+           type="search"
+           inputmode="search"
+           placeholder="Find for food or restaurant..."
+           aria-label="Find for food or restaurant"
+           value="@_value"
+           @oninput="OnInput" />
+</div>
+
+@code {
+    [Parameter]
+    public string Value { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    private string _value = string.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _value = Value;
+    }
+
+    private async Task OnInput(ChangeEventArgs args)
+    {
+        _value = args.Value?.ToString() ?? string.Empty;
+
+        await ValueChanged.InvokeAsync(_value);
+    }
+}

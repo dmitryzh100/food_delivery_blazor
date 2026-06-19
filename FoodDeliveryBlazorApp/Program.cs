@@ -22,5 +22,8 @@ builder.Services.AddScoped<TokenAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<TokenAuthenticationStateProvider>());
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAddressService, MockAddressService>();
+builder.Services.AddScoped<ICategoryService, MockCategoryService>();
+builder.Services.AddScoped<IRestaurantService, MockRestaurantService>();
+builder.Services.AddScoped<IPopularItemService, MockPopularItemService>();
 
 await builder.Build().RunAsync();

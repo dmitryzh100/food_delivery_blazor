@@ -1,0 +1,23 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.popular {
+    margin-top: 28px;
+}
+
+.popular__head {
+    margin-bottom: 16px;
+}
+
+.popular__title {
+    margin: 0;
+    @include typography(700, 20px);
+    color: var(--color-text);
+}
+
+.popular__empty {
+    margin: 0;
+    padding: 18px 0;
+    @include typography(500, 14px);
+    color: var(--color-text-muted);
+}

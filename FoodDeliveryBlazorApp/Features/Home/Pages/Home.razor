@@ -4,6 +4,9 @@
 @using System.Security.Claims
 @inject IAuthService AuthService
 @inject IAddressService AddressService
+@inject ICategoryService CategoryService
+@inject IRestaurantService RestaurantService
+@inject IPopularItemService PopularItemService
 @inject NavigationManager Navigation
 
 <PageTitle>FoodHub</PageTitle>
@@ -21,7 +24,19 @@
                     OnMenuClick="OpenMenu"
                     OnProfileClick="OpenMenu"
                     OnAddressSelected="SelectAddress" />
+
+        <h1 class="home__title">What would you like to order</h1>
+
+        <SearchBar @bind-Value="_searchQuery" />
+
+        <CategoryChips Categories="_categories" Selected="_selectedCategories" OnToggle="ToggleCategory" />
+
+        <FeaturedRestaurants Restaurants="FilteredRestaurants" />
+
+        <PopularItems Items="FilteredItems" />
     </div>
+
+    <HomeFooter />
 </div>
 
 @code {
@@ -35,10 +50,35 @@
     private IReadOnlyList<DeliveryAddress> _addresses = [];
     private DeliveryAddress? _selectedAddress;
 
+    private IReadOnlyList<CategoryChip> _categories = [];
+    private IReadOnlyList<Restaurant> _restaurants = [];
+    private IReadOnlyList<PopularItem> _popularItems = [];
+
+    private string _searchQuery = string.Empty;
+    private readonly HashSet<FoodCategory> _selectedCategories = [];
+
+    private IReadOnlyList<Restaurant> FilteredRestaurants =>
+        _restaurants
+            .Where(restaurant =>
+                MatchesCategory(restaurant.Categories) &&
+                (MatchesSearch(restaurant.Name) || restaurant.Tags.Any(MatchesSearch)))
+            .ToList();
+
+    private IReadOnlyList<PopularItem> FilteredItems =>
+        _popularItems
+            .Where(item =>
+                (_selectedCategories.Count == 0 || _selectedCategories.Contains(item.Category)) &&
+                (MatchesSearch(item.Name) || MatchesSearch(item.Description)))
+            .ToList();
+
     protected override async Task OnInitializedAsync()
     {
         _addresses = await AddressService.GetAddressesAsync();
         _selectedAddress = _addresses.FirstOrDefault();
+
+        _categories = await CategoryService.GetCategoriesAsync();
+        _restaurants = await RestaurantService.GetFeaturedAsync();
+        _popularItems = await PopularItemService.GetPopularAsync();
 
         if (AuthState is not null)
         {
@@ -48,6 +88,25 @@
             _userName = user.Identity?.Name ?? "User";
             _userEmail = user.FindFirst(ClaimTypes.Email)?.Value ?? string.Empty;
         }
+    }
+
+    private bool MatchesCategory(IReadOnlyList<FoodCategory> categories)
+    {
+        return _selectedCategories.Count == 0 || categories.Any(_selectedCategories.Contains);
+    }
+
+    private void ToggleCategory(FoodCategory category)
+    {
+        if (!_selectedCategories.Add(category))
+        {
+            _selectedCategories.Remove(category);
+        }
+    }
+
+    private bool MatchesSearch(string value)
+    {
+        return string.IsNullOrWhiteSpace(_searchQuery) ||
+            value.Contains(_searchQuery.Trim(), StringComparison.OrdinalIgnoreCase);
     }
 
     private void OpenMenu()

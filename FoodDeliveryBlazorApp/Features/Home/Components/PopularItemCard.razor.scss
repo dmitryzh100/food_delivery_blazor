@@ -1,0 +1,76 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.pcard {
+    display: flex;
+    flex-direction: column;
+    width: 158px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+}
+
+.pcard__media {
+    position: relative;
+    height: 128px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.10);
+}
+
+.pcard__image {
+    @include size(100%);
+    object-fit: cover;
+    display: block;
+}
+
+.pcard__price {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    @include typography(700, 13px);
+    color: var(--color-text);
+}
+
+.pcard__price-icon {
+    display: block;
+}
+
+.pcard__rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 12px;
+}
+
+.pcard__star {
+    color: #FFC529;
+}
+
+.pcard__rating-value {
+    @include typography(700, 12px);
+    color: var(--color-text);
+}
+
+.pcard__rating-count {
+    @include typography(500, 11px);
+    color: var(--color-text-muted);
+}
+
+.pcard__name {
+    margin: 8px 0 0;
+    @include typography(600, 15px);
+    color: var(--color-text);
+}
+
+.pcard__desc {
+    margin: 5px 0 0;
+    @include typography(400, 12px);
+    color: var(--color-text-muted);
+}
