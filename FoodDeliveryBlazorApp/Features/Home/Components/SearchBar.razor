@@ -13,6 +13,8 @@
            @oninput="OnInput" />
 </div>
 
+@implements IDisposable
+
 @code {
     [Parameter]
     public string Value { get; set; } = string.Empty;
@@ -20,17 +22,48 @@
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
+    [Parameter]
+    public int DebounceDelay { get; set; } = 400;
+
     private string _value = string.Empty;
+    private string _lastEmitted = string.Empty;
+    private CancellationTokenSource? _debounceCts;
 
     protected override void OnParametersSet()
     {
-        _value = Value;
+        if (Value != _lastEmitted)
+        {
+            _value = Value;
+            _lastEmitted = Value;
+        }
     }
 
     private async Task OnInput(ChangeEventArgs args)
     {
         _value = args.Value?.ToString() ?? string.Empty;
 
-        await ValueChanged.InvokeAsync(_value);
+        _debounceCts?.Cancel();
+        _debounceCts?.Dispose();
+        _debounceCts = new CancellationTokenSource();
+
+        CancellationToken token = _debounceCts.Token;
+
+        try
+        {
+            await Task.Delay(DebounceDelay, token);
+
+            _lastEmitted = _value;
+
+            await ValueChanged.InvokeAsync(_value);
+        }
+        catch (TaskCanceledException)
+        {
+        }
+    }
+
+    public void Dispose()
+    {
+        _debounceCts?.Cancel();
+        _debounceCts?.Dispose();
     }
 }
