@@ -1,0 +1,20 @@
+@inherits ErrorBoundaryBase
+@inject IErrorLoggingService ErrorLogging
+
+@if (CurrentException is null)
+{
+    @ChildContent
+}
+else
+{
+    <ErrorFallback />
+}
+
+@code {
+    protected override Task OnErrorAsync(Exception exception)
+    {
+        _ = ErrorLogging.LogAsync(exception);
+
+        return Task.CompletedTask;
+    }
+}

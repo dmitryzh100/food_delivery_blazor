@@ -1,6 +1,7 @@
 using FoodDeliveryBlazorApp;
 using FoodDeliveryBlazorApp.Features.Auth;
 using FoodDeliveryBlazorApp.Features.Auth.Services;
+using FoodDeliveryBlazorApp.Features.ErrorHandling.Services;
 using FoodDeliveryBlazorApp.Features.Home.Services;
 using FoodDeliveryBlazorApp.Services;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -17,6 +18,8 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddMudServices();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
+builder.Services.AddScoped<IErrorLogApi, MockErrorLogApi>();
+builder.Services.AddScoped<IErrorLoggingService, ErrorLoggingService>();
 builder.Services.AddScoped<IAuthApi, MockAuthApi>();
 builder.Services.AddScoped<TokenAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<TokenAuthenticationStateProvider>());
