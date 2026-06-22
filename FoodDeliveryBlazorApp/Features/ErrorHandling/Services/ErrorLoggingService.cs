@@ -6,36 +6,23 @@ using Microsoft.JSInterop;
 
 namespace FoodDeliveryBlazorApp.Features.ErrorHandling.Services;
 
-public sealed class ErrorLoggingService : IErrorLoggingService
+public sealed class ErrorLoggingService(
+    IErrorLogApi errorLogApi,
+    NavigationManager navigation,
+    IJSRuntime jsRuntime,
+    ILogger<ErrorLoggingService> logger) : IErrorLoggingService
 {
-    private readonly IErrorLogApi _errorLogApi;
-    private readonly NavigationManager _navigation;
-    private readonly IJSRuntime _jsRuntime;
-    private readonly ILogger<ErrorLoggingService> _logger;
-
-    public ErrorLoggingService(
-        IErrorLogApi errorLogApi,
-        NavigationManager navigation,
-        IJSRuntime jsRuntime,
-        ILogger<ErrorLoggingService> logger)
-    {
-        _errorLogApi = errorLogApi;
-        _navigation = navigation;
-        _jsRuntime = jsRuntime;
-        _logger = logger;
-    }
-
     public async Task LogAsync(Exception exception)
     {
         try
         {
             ErrorLogEntry entry = await BuildEntryAsync(exception);
 
-            await _errorLogApi.SaveAsync(entry);
+            await errorLogApi.SaveAsync(entry);
         }
         catch (Exception loggingError)
         {
-            _logger.LogError(loggingError, "Failed to persist application error log.");
+            logger.LogError(loggingError, "Failed to persist application error log.");
         }
     }
 
@@ -55,7 +42,7 @@ public sealed class ErrorLoggingService : IErrorLoggingService
             Detail = exception.ToString(),
             Data = ExtractData(exception),
             OccurredAtUtc = DateTimeOffset.UtcNow,
-            PageUrl = _navigation.Uri,
+            PageUrl = navigation.Uri,
             UserAgent = userAgent,
         };
     }
@@ -64,7 +51,7 @@ public sealed class ErrorLoggingService : IErrorLoggingService
     {
         try
         {
-            return await _jsRuntime.InvokeAsync<string>("diagnostics.getUserAgent");
+            return await jsRuntime.InvokeAsync<string>("diagnostics.getUserAgent");
         }
         catch (Exception)
         {
