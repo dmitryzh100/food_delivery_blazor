@@ -1,6 +1,7 @@
 using FoodDeliveryBlazorApp;
 using FoodDeliveryBlazorApp.Features.Auth;
 using FoodDeliveryBlazorApp.Features.Auth.Services;
+using FoodDeliveryBlazorApp.Features.Connectivity.Services;
 using FoodDeliveryBlazorApp.Features.ErrorHandling.Services;
 using FoodDeliveryBlazorApp.Features.Home.Services;
 using FoodDeliveryBlazorApp.Services;
@@ -18,6 +19,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddMudServices();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
+builder.Services.AddScoped<IConnectivityService, ConnectivityService>();
 builder.Services.AddScoped<IErrorLogApi, MockErrorLogApi>();
 builder.Services.AddScoped<IErrorLoggingService, ErrorLoggingService>();
 builder.Services.AddScoped<IAuthApi, MockAuthApi>();
