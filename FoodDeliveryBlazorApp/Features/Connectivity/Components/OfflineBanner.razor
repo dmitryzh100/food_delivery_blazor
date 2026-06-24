@@ -1,0 +1,29 @@
+@implements IDisposable
+@inject IConnectivityService Connectivity
+
+@if (!Connectivity.IsOnline)
+{
+    <div class="offline-banner" role="status" aria-live="polite">
+        <MudIcon Icon="@Icons.Material.Filled.CloudOff" Size="Size.Small" Color="Color.Inherit" />
+        <span class="offline-banner__text">You are currently offline.</span>
+    </div>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        Connectivity.StatusChanged += HandleStatusChanged;
+
+        await Connectivity.InitializeAsync();
+    }
+
+    private void HandleStatusChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        Connectivity.StatusChanged -= HandleStatusChanged;
+    }
+}
