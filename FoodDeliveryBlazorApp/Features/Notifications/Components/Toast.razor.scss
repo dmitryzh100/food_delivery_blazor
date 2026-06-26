@@ -1,0 +1,39 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.toast {
+    @include flex-center;
+    gap: 9px;
+    position: fixed;
+    left: 50%;
+    bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+    z-index: 2500;
+    width: max-content;
+    max-width: 320px;
+    padding: 12px 18px;
+    border-radius: $radius-pill;
+    background: $text-navy;
+    color: $on-dark;
+    @include typography(500, 14px, 1.35);
+    box-shadow: soft-shadow(0, 14px, 32px, $text, 0.26);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast--hidden {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+    pointer-events: none;
+}
+
+.toast--visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.toast--error {
+    background: $error;
+}
+
+.toast__text {
+    letter-spacing: 0.01em;
+}

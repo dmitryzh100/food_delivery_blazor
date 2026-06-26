@@ -1,0 +1,75 @@
+@implements IDisposable
+@inject IToastService ToastService
+
+@if (_current is not null)
+{
+    <div class="toast @VisibilityClass @TypeClass" role="status" aria-live="polite">
+        <MudIcon Icon="@IconForType" Size="Size.Small" Color="Color.Inherit" />
+        <span class="toast__text">@_current.Text</span>
+    </div>
+}
+
+@code {
+    private const int DurationMs = 3000;
+
+    private ToastMessage? _current;
+    private bool _visible;
+    private CancellationTokenSource? _cts;
+
+    protected override void OnInitialized()
+    {
+        ToastService.OnShow += HandleShow;
+    }
+
+    private void HandleShow(ToastMessage message)
+    {
+        _current = message;
+        _visible = true;
+
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+
+        InvokeAsync(StateHasChanged);
+
+        _ = AutoDismissAsync(_cts.Token);
+    }
+
+    private async Task AutoDismissAsync(CancellationToken token)
+    {
+        try
+        {
+            await Task.Delay(DurationMs, token);
+        }
+        catch (TaskCanceledException)
+        {
+            return;
+        }
+
+        _visible = false;
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private string VisibilityClass => _visible ? "toast--visible" : "toast--hidden";
+
+    private string TypeClass => _current?.Type switch
+    {
+        ToastType.Error => "toast--error",
+        ToastType.Info => "toast--info",
+        _ => "toast--success",
+    };
+
+    private string IconForType => _current?.Type switch
+    {
+        ToastType.Error => Icons.Material.Filled.Error,
+        ToastType.Info => Icons.Material.Filled.Info,
+        _ => Icons.Material.Filled.CheckCircle,
+    };
+
+    public void Dispose()
+    {
+        ToastService.OnShow -= HandleShow;
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+}

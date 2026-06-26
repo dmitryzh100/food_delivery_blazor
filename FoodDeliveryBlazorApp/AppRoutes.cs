@@ -7,4 +7,5 @@ public static class AppRoutes
     public const string Login = "/login";
     public const string SignUp = "/signup";
     public const string Home = "/home";
+    public const string Profile = "/profile";
 }

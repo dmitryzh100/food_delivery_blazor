@@ -4,6 +4,8 @@ using FoodDeliveryBlazorApp.Features.Auth.Services;
 using FoodDeliveryBlazorApp.Features.Connectivity.Services;
 using FoodDeliveryBlazorApp.Features.ErrorHandling.Services;
 using FoodDeliveryBlazorApp.Features.Home.Services;
+using FoodDeliveryBlazorApp.Features.Notifications.Services;
+using FoodDeliveryBlazorApp.Features.Profile.Services;
 using FoodDeliveryBlazorApp.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -30,5 +32,7 @@ builder.Services.AddScoped<IAddressService, MockAddressService>();
 builder.Services.AddScoped<ICategoryService, MockCategoryService>();
 builder.Services.AddScoped<IRestaurantService, MockRestaurantService>();
 builder.Services.AddScoped<IPopularItemService, MockPopularItemService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IToastService, ToastService>();
 
 await builder.Build().RunAsync();

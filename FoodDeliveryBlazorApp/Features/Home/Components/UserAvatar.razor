@@ -1,5 +1,5 @@
 <span class="avatar avatar--@ShapeModifier" style="@SizeStyle">
-    <img src="images/avatar.png" alt="User avatar" />
+    <img src="@Src" alt="User avatar" />
 </span>
 
 @code {
@@ -8,6 +8,9 @@
 
     [Parameter]
     public AvatarShape Shape { get; set; } = AvatarShape.Circle;
+
+    [Parameter]
+    public string Src { get; set; } = "images/avatar.png";
 
     private string SizeStyle => $"--avatar-size: {Size}px;";
 
