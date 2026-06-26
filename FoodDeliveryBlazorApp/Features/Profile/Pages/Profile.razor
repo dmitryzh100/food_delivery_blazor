@@ -1,0 +1,263 @@
+@attribute [Route(AppRoutes.Profile)]
+@attribute [Authorize]
+@layout MainLayout
+@inject IProfileService ProfileService
+@inject IToastService ToastService
+@inject NavigationManager Navigation
+
+<PageTitle>My Profile</PageTitle>
+
+<section class="profile">
+    <div class="profile__decor" aria-hidden="true">
+        <span class="profile__blob profile__blob--peach"></span>
+        <span class="profile__blob profile__blob--yellow"></span>
+        <span class="profile__blob profile__blob--coral"></span>
+    </div>
+
+    <button type="button" class="back-btn" @onclick="GoBack" aria-label="Go back">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <polyline points="15 18 9 12 15 6" />
+        </svg>
+    </button>
+
+    <header class="profile__identity">
+        <div class="profile__avatar @(_isDragging ? "profile__avatar--drag" : null)"
+             @ondragenter="OnDragEnter"
+             @ondragleave="OnDragLeave"
+             @ondragover:preventDefault="true">
+            <img class="profile__avatar-img" src="@_profile.AvatarUrl" alt="@_profile.FullName" />
+
+            <span class="profile__avatar-camera" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                    <circle cx="12" cy="13" r="4" />
+                </svg>
+            </span>
+
+            <InputFile class="profile__avatar-input"
+                       OnChange="OnPhotoSelectedAsync"
+                       accept="image/*"
+                       aria-label="Change profile photo" />
+        </div>
+
+        <h1 class="profile__name">@_profile.FullName</h1>
+
+        <button type="button" class="profile__edit" @onclick="EditProfile">Edit Profile</button>
+    </header>
+
+    <div class="profile__form">
+        <div class="field">
+            <label class="field-label" for="profile-name">Full name</label>
+            <input id="profile-name"
+                   class="form-input"
+                   type="text"
+                   value="@_profile.FullName"
+                   @onchange="OnFullNameChangedAsync"
+                   autocomplete="name" />
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="profile-email">E-mail</label>
+            <input id="profile-email"
+                   @key="@($"email-{_fieldVersion}")"
+                   class="form-input"
+                   type="email"
+                   value="@_profile.Email"
+                   @onchange="OnEmailChanging"
+                   autocomplete="email"
+                   inputmode="email" />
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="profile-phone">Phone Number</label>
+            <input id="profile-phone"
+                   @key="@($"phone-{_fieldVersion}")"
+                   class="form-input"
+                   type="tel"
+                   value="@_profile.PhoneNumber"
+                   @onchange="OnPhoneChanging"
+                   autocomplete="tel"
+                   inputmode="tel" />
+        </div>
+    </div>
+
+    <ConfirmDialog Visible="_confirmVisible"
+                   Title="@_confirmTitle"
+                   Message="@_confirmMessage"
+                   ConfirmText="Yes, change it"
+                   CancelText="Cancel"
+                   OnConfirm="ConfirmChangeAsync"
+                   OnCancel="CancelChange" />
+</section>
+
+@code {
+    private const long MaxPhotoBytes = 2 * 1024 * 1024;
+    private const int MaxPhotoMb = 2;
+
+    private UserProfile _profile = new();
+    private bool _isDragging;
+
+    private bool _confirmVisible;
+    private string _confirmTitle = string.Empty;
+    private string _confirmMessage = string.Empty;
+    private ProfileField _pendingField;
+    private string? _pendingValue;
+    private int _fieldVersion;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _profile = await ProfileService.GetProfileAsync();
+    }
+
+    private void OnDragEnter(DragEventArgs e)
+    {
+        _isDragging = true;
+    }
+
+    private void OnDragLeave(DragEventArgs e)
+    {
+        _isDragging = false;
+    }
+
+    private async Task OnPhotoSelectedAsync(InputFileChangeEventArgs e)
+    {
+        _isDragging = false;
+
+        IBrowserFile file = e.File;
+
+        if (!file.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+        {
+            ToastService.ShowError("Please choose an image file.");
+
+            return;
+        }
+
+        if (file.Size > MaxPhotoBytes)
+        {
+            ToastService.ShowError($"Image is too large. Maximum size is {MaxPhotoMb} MB.");
+
+            return;
+        }
+
+        string previousAvatar = _profile.AvatarUrl;
+
+        try
+        {
+            _profile.AvatarUrl = await ReadAsDataUrlAsync(file);
+
+            await ProfileService.SaveProfileAsync(_profile);
+
+            ToastService.ShowSuccess("Profile photo updated.");
+        }
+        catch (Exception)
+        {
+            _profile.AvatarUrl = previousAvatar;
+
+            ToastService.ShowError("Couldn't update the photo. Please try again.");
+        }
+    }
+
+    private static async Task<string> ReadAsDataUrlAsync(IBrowserFile file)
+    {
+        await using Stream stream = file.OpenReadStream(MaxPhotoBytes);
+        using MemoryStream buffer = new();
+
+        await stream.CopyToAsync(buffer);
+
+        string base64 = Convert.ToBase64String(buffer.ToArray());
+
+        return $"data:{file.ContentType};base64,{base64}";
+    }
+
+    private async Task OnFullNameChangedAsync(ChangeEventArgs e)
+    {
+        string value = e.Value?.ToString() ?? string.Empty;
+
+        if (string.Equals(value, _profile.FullName, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _profile.FullName = value;
+
+        await ProfileService.SaveProfileAsync(_profile);
+
+        ToastService.ShowSuccess("Full name updated.");
+    }
+
+    private void OnEmailChanging(ChangeEventArgs e)
+    {
+        RequestSensitiveChange(
+            ProfileField.Email,
+            e.Value?.ToString() ?? string.Empty,
+            _profile.Email,
+            "Change email address?",
+            "Your email is how you sign in and recover your account. If you switch to an address you don't control, you could lose access to your profile. Are you sure you want to change it?");
+    }
+
+    private void OnPhoneChanging(ChangeEventArgs e)
+    {
+        RequestSensitiveChange(
+            ProfileField.Phone,
+            e.Value?.ToString() ?? string.Empty,
+            _profile.PhoneNumber,
+            "Change phone number?",
+            "Your phone number is used for delivery updates and account verification. Changing it may interrupt those messages until the new number is confirmed. Do you want to continue?");
+    }
+
+    private void RequestSensitiveChange(ProfileField field, string newValue, string currentValue, string title, string message)
+    {
+        if (string.Equals(newValue, currentValue, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _pendingField = field;
+        _pendingValue = newValue;
+        _confirmTitle = title;
+        _confirmMessage = message;
+        _confirmVisible = true;
+    }
+
+    private async Task ConfirmChangeAsync()
+    {
+        if (_pendingValue is not null)
+        {
+            if (_pendingField == ProfileField.Email)
+            {
+                _profile.Email = _pendingValue;
+            }
+            else
+            {
+                _profile.PhoneNumber = _pendingValue;
+            }
+
+            await ProfileService.SaveProfileAsync(_profile);
+
+            ToastService.ShowSuccess(_pendingField == ProfileField.Email ? "Email updated." : "Phone number updated.");
+        }
+
+        CloseConfirm();
+    }
+
+    private void CancelChange()
+    {
+        CloseConfirm();
+    }
+
+    private void CloseConfirm()
+    {
+        _confirmVisible = false;
+        _pendingValue = null;
+        _fieldVersion++;
+    }
+
+    private void EditProfile()
+    {
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo(AppRoutes.Home);
+    }
+}

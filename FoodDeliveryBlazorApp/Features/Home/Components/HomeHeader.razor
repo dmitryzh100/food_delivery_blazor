@@ -41,7 +41,7 @@
     </div>
 
     <button type="button" class="header__profile" @onclick="OnProfileClick" aria-label="Open account menu">
-        <UserAvatar Size="38" Shape="AvatarShape.Rounded" />
+        <UserAvatar Size="38" Shape="AvatarShape.Rounded" Src="@AvatarSrc" />
     </button>
 </header>
 
@@ -51,6 +51,9 @@
 
     [Parameter, EditorRequired]
     public DeliveryAddress? SelectedAddress { get; set; }
+
+    [Parameter]
+    public string AvatarSrc { get; set; } = "images/avatar.png";
 
     [Parameter]
     public EventCallback OnMenuClick { get; set; }

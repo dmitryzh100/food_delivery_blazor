@@ -43,6 +43,20 @@ public sealed class TokenAuthenticationStateProvider : AuthenticationStateProvid
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
     }
 
+    public ValueTask<AuthUser?> GetCurrentUserAsync()
+    {
+        return _localStorage.GetItemAsync<AuthUser>(UserStorageKey);
+    }
+
+    public async Task UpdateUserAsync(AuthUser user)
+    {
+        await _localStorage.SetItemAsync(UserStorageKey, user);
+
+        ClaimsPrincipal principal = CreatePrincipal(user);
+
+        NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
+    }
+
     public async Task MarkUserLoggedOutAsync()
     {
         await _localStorage.RemoveItemAsync(TokensStorageKey);

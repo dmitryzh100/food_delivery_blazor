@@ -1,8 +1,8 @@
 @attribute [Route(AppRoutes.Home)]
 @attribute [Authorize]
 @layout MainLayout
-@using System.Security.Claims
 @inject IAuthService AuthService
+@inject IProfileService ProfileService
 @inject IAddressService AddressService
 @inject ICategoryService CategoryService
 @inject IRestaurantService RestaurantService
@@ -15,12 +15,14 @@
     <SideMenu Open="_isMenuOpen"
               UserName="@_userName"
               UserEmail="@_userEmail"
+              AvatarSrc="@_userAvatar"
               OnClose="CloseMenu"
               OnLogout="LogoutAsync" />
 
     <div class="home__scene">
         <HomeHeader Addresses="_addresses"
                     SelectedAddress="_selectedAddress"
+                    AvatarSrc="@_userAvatar"
                     OnMenuClick="OpenMenu"
                     OnProfileClick="OpenMenu"
                     OnAddressSelected="SelectAddress" />
@@ -40,11 +42,9 @@
 </div>
 
 @code {
-    [CascadingParameter]
-    private Task<AuthenticationState>? AuthState { get; set; }
-
     private string _userName = "User";
     private string _userEmail = string.Empty;
+    private string _userAvatar = "images/avatar.png";
     private bool _isMenuOpen;
 
     private IReadOnlyList<DeliveryAddress> _addresses = [];
@@ -80,14 +80,11 @@
         _restaurants = await RestaurantService.GetFeaturedAsync();
         _popularItems = await PopularItemService.GetPopularAsync();
 
-        if (AuthState is not null)
-        {
-            AuthenticationState state = await AuthState;
-            ClaimsPrincipal user = state.User;
+        UserProfile profile = await ProfileService.GetProfileAsync();
 
-            _userName = user.Identity?.Name ?? "User";
-            _userEmail = user.FindFirst(ClaimTypes.Email)?.Value ?? string.Empty;
-        }
+        _userName = string.IsNullOrWhiteSpace(profile.FullName) ? "User" : profile.FullName;
+        _userEmail = profile.Email;
+        _userAvatar = profile.AvatarUrl;
     }
 
     private bool MatchesCategory(IReadOnlyList<FoodCategory> categories)
