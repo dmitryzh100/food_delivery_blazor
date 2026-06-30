@@ -9,4 +9,6 @@ public sealed class AuthUser
     public string PhoneNumber { get; set; } = string.Empty;
 
     public string AvatarUrl { get; set; } = string.Empty;
+
+    public string Language { get; set; } = string.Empty;
 }

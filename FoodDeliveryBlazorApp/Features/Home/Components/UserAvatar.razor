@@ -1,5 +1,7 @@
+@inject IStringLocalizer<SharedResource> Localizer
+
 <span class="avatar avatar--@ShapeModifier" style="@SizeStyle">
-    <img src="@Src" alt="User avatar" />
+    <img src="@Src" alt="@Localizer["UserAvatarAlt"]" />
 </span>
 
 @code {

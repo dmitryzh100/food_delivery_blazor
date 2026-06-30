@@ -1,6 +1,8 @@
+@inject IStringLocalizer<SharedResource> Localizer
+
 <section class="popular">
     <header class="popular__head">
-        <h2 class="popular__title">Popular items</h2>
+        <h2 class="popular__title">@Localizer["PopularTitle"]</h2>
     </header>
 
     <Slider>
@@ -12,7 +14,7 @@
 
     @if (Items.Count == 0)
     {
-        <p class="popular__empty">No items found.</p>
+        <p class="popular__empty">@Localizer["PopularEmpty"]</p>
     }
 </section>
 

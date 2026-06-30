@@ -1,9 +1,11 @@
 @attribute [Route(AppRoutes.Login)]
 @layout AuthLayout
 @inject IAuthService AuthService
+@inject ICultureService CultureService
 @inject NavigationManager Navigation
+@inject IStringLocalizer<SharedResource> Localizer
 
-<PageTitle>Login</PageTitle>
+<PageTitle>@Localizer["LoginTitle"]</PageTitle>
 
 <section class="auth-page" aria-labelledby="login-heading">
     <div class="auth-decor" aria-hidden="true">
@@ -12,23 +14,23 @@
         <span class="ellipse ellipse-orange"></span>
     </div>
 
-    <button type="button" class="back-btn" @onclick="GoBack" aria-label="Go back to welcome">
+    <button type="button" class="back-btn" @onclick="GoBack" aria-label="@Localizer["LoginBackAria"]">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
             <polyline points="15 18 9 12 15 6" />
         </svg>
     </button>
 
-    <h1 id="login-heading" class="auth-title">Login</h1>
+    <h1 id="login-heading" class="auth-title">@Localizer["LoginTitle"]</h1>
 
     <EditForm EditContext="_editContext" OnValidSubmit="HandleLoginAsync">
         <DataAnnotationsValidator />
 
         <div class="field">
-            <label class="field-label" for="login-email">E-mail</label>
+            <label class="field-label" for="login-email">@Localizer["CommonEmail"]</label>
             <InputText id="login-email"
                        class="form-input"
                        @bind-Value="_model.Email"
-                       placeholder="Your email or phone"
+                       placeholder="@Localizer["LoginEmailPlaceholder"]"
                        autocomplete="username"
                        inputmode="email"
                        aria-describedby="login-email-error"
@@ -39,10 +41,10 @@
         </div>
 
         <div class="field">
-            <label class="field-label" for="login-password">Password</label>
+            <label class="field-label" for="login-password">@Localizer["CommonPassword"]</label>
             <PasswordField Id="login-password"
                            @bind-Value="_model.Password"
-                           Placeholder="Password"
+                           Placeholder="@Localizer["CommonPassword"]"
                            Autocomplete="current-password"
                            AriaDescribedBy="login-password-error"
                            AriaInvalid="@AriaInvalid(() => _model.Password)" />
@@ -56,16 +58,16 @@
             <p class="auth-error" role="alert">@_error</p>
         }
 
-        <button type="button" class="forgot" @onclick="OnForgotPassword">Forgot password?</button>
+        <button type="button" class="forgot" @onclick="OnForgotPassword">@Localizer["LoginForgot"]</button>
 
         <button type="submit" class="btn-primary" disabled="@_isBusy">
-            @(_isBusy ? "Logging in..." : "Login")
+            @(_isBusy ? Localizer["LoginSubmitting"] : Localizer["LoginSubmit"])
         </button>
     </EditForm>
 
-    <p class="auth-switch">Don't have an account? <a class="link" href="@AppRoutes.SignUp">Sign Up</a></p>
+    <p class="auth-switch">@Localizer["LoginNoAccount"] <a class="link" href="@AppRoutes.SignUp">@Localizer["LoginSignUpLink"]</a></p>
 
-    <SocialAuthButtons DividerText="Sign in with" />
+    <SocialAuthButtons DividerText="@Localizer["SocialSignInWith"]" />
 </section>
 
 @code {
@@ -86,15 +88,16 @@
 
         AuthResult result = await AuthService.LoginAsync(_model);
 
-        _isBusy = false;
-
         if (result.Succeeded)
         {
-            Navigation.NavigateTo(AppRoutes.Home);
+            bool cultureChanged = await CultureService.SyncLanguageAsync(result.User?.Language);
+
+            Navigation.NavigateTo(AppRoutes.Home, forceLoad: cultureChanged);
 
             return;
         }
 
+        _isBusy = false;
         _error = result.Error;
     }
 

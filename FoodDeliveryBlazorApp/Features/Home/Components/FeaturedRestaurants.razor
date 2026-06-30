@@ -1,7 +1,9 @@
+@inject IStringLocalizer<SharedResource> Localizer
+
 <section class="featured">
     <header class="featured__head">
-        <h2 class="featured__title">Featured restaurants</h2>
-        <a class="featured__all" href="#">View All &rsaquo;</a>
+        <h2 class="featured__title">@Localizer["FeaturedTitle"]</h2>
+        <a class="featured__all" href="#">@Localizer["FeaturedViewAll"] &rsaquo;</a>
     </header>
 
     <Slider>
@@ -13,7 +15,7 @@
 
     @if (Restaurants.Count == 0)
     {
-        <p class="featured__empty">No restaurants found.</p>
+        <p class="featured__empty">@Localizer["FeaturedEmpty"]</p>
     }
 </section>
 

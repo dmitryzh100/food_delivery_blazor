@@ -1,4 +1,6 @@
-<div class="chips" role="listbox" aria-label="Food categories" aria-multiselectable="true">
+@inject IStringLocalizer<SharedResource> Localizer
+
+<div class="chips" role="listbox" aria-label="@Localizer["ChipsAria"]" aria-multiselectable="true">
     @foreach (CategoryChip chip in Categories)
     {
         bool isSelected = Selected.Contains(chip.Category);

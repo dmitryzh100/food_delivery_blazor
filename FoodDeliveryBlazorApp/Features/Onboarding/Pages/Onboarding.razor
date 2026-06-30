@@ -1,11 +1,12 @@
 @attribute [Route(AppRoutes.Onboarding)]
 @layout AuthLayout
 @inject NavigationManager Navigation
+@inject IStringLocalizer<SharedResource> Localizer
 
-<PageTitle>Get started with FoodHub</PageTitle>
+<PageTitle>@Localizer["OnboardingTitle"]</PageTitle>
 
-<section class="onboarding" aria-roledescription="carousel" aria-label="FoodHub onboarding">
-    <h1 class="sr-only">Get started with FoodHub</h1>
+<section class="onboarding" aria-roledescription="carousel" aria-label="@Localizer["OnboardingCarouselAria"]">
+    <h1 class="sr-only">@Localizer["OnboardingTitle"]</h1>
 
     <MudCarousel TData="OnboardingSlide"
                  ItemsSource="_slides"
@@ -18,7 +19,7 @@
         <ItemTemplate Context="slide">
             <article class="onboarding-slide"
                      aria-roledescription="slide"
-                     aria-label="Step @(slide.Index + 1) of @_slides.Count">
+                     aria-label="@Localizer["OnboardingStep", slide.Index + 1, _slides.Count]">
                 <div class="onboarding-stage">
                     <OnboardingHero Photo="@slide.Photo"
                                     PhotoAlt="@slide.PhotoAlt"
@@ -45,7 +46,7 @@
     <button type="button"
             class="onboarding-next"
             @onclick="Advance"
-            aria-label="@(IsLastStep ? "Go to sign up" : "Next step")">
+            aria-label="@(IsLastStep ? Localizer["OnboardingNextSignUpAria"] : Localizer["OnboardingNextStepAria"])">
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
              stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
             <line x1="5" y1="12" x2="19" y2="12" />
@@ -55,65 +56,70 @@
 </section>
 
 @code {
-    private const string SharedSubtitle = "Our app can send you everywhere, even space. For only $2.99 per month";
-
     private int _index;
 
-    private readonly List<OnboardingSlide> _slides =
-    [
-        new OnboardingSlide
-        {
-            Index = 0,
-            Photo = "images/onboarding/onboarding_photo_1.png",
-            PhotoAlt = "Person browsing a food delivery menu on a phone",
-            Title = "Browse your menu and order directly",
-            Subtitle = SharedSubtitle,
-            BadgeShape = OrbitBadgeShape.Logo,
-            Icons =
-            [
-                "images/onboarding/icon_starbucks.svg",
-                "images/onboarding/icon_pizza_hut.svg",
-                "images/onboarding/icon_burger_king.svg",
-                "images/onboarding/icon_jimmy_johnes.svg",
-                "images/onboarding/icon_kfc.svg"
-            ]
-        },
-        new OnboardingSlide
-        {
-            Index = 1,
-            Photo = "images/onboarding/onboarding_photo_2.png",
-            PhotoAlt = "A bowl of freshly prepared dumplings",
-            Title = "Even to space with us! Together",
-            Subtitle = SharedSubtitle,
-            BadgeShape = OrbitBadgeShape.Photo,
-            PhotoFit = HeroPhotoFit.Centered,
-            Icons =
-            [
-                "images/onboarding/icon_meal_1.png",
-                "images/onboarding/icon_meal_2.png",
-                "images/onboarding/icon_meal_3.png",
-                "images/onboarding/icon_meal_4.png",
-                "images/onboarding/icon_meal_5.png"
-            ]
-        },
-        new OnboardingSlide
-        {
-            Index = 2,
-            Photo = "images/onboarding/onboarding_photo_3.png",
-            PhotoAlt = "A courier holding a bag of groceries",
-            Title = "Pickup delivery at your door",
-            Subtitle = SharedSubtitle,
-            BadgeShape = OrbitBadgeShape.Photo,
-            Icons =
-            [
-                "images/onboarding/icon_delivery_1.png",
-                "images/onboarding/icon_delivery_2.png",
-                "images/onboarding/icon_delivery_3.png",
-                "images/onboarding/icon_delivery_4.png",
-                "images/onboarding/icon_delivery_5.png"
-            ]
-        }
-    ];
+    private List<OnboardingSlide> _slides = [];
+
+    protected override void OnInitialized()
+    {
+        string sharedSubtitle = Localizer["OnboardingSharedSubtitle"];
+
+        _slides =
+        [
+            new OnboardingSlide
+            {
+                Index = 0,
+                Photo = "images/onboarding/onboarding_photo_1.png",
+                PhotoAlt = Localizer["OnboardingSlide1PhotoAlt"],
+                Title = Localizer["OnboardingSlide1Title"],
+                Subtitle = sharedSubtitle,
+                BadgeShape = OrbitBadgeShape.Logo,
+                Icons =
+                [
+                    "images/onboarding/icon_starbucks.svg",
+                    "images/onboarding/icon_pizza_hut.svg",
+                    "images/onboarding/icon_burger_king.svg",
+                    "images/onboarding/icon_jimmy_johnes.svg",
+                    "images/onboarding/icon_kfc.svg"
+                ]
+            },
+            new OnboardingSlide
+            {
+                Index = 1,
+                Photo = "images/onboarding/onboarding_photo_2.png",
+                PhotoAlt = Localizer["OnboardingSlide2PhotoAlt"],
+                Title = Localizer["OnboardingSlide2Title"],
+                Subtitle = sharedSubtitle,
+                BadgeShape = OrbitBadgeShape.Photo,
+                PhotoFit = HeroPhotoFit.Centered,
+                Icons =
+                [
+                    "images/onboarding/icon_meal_1.png",
+                    "images/onboarding/icon_meal_2.png",
+                    "images/onboarding/icon_meal_3.png",
+                    "images/onboarding/icon_meal_4.png",
+                    "images/onboarding/icon_meal_5.png"
+                ]
+            },
+            new OnboardingSlide
+            {
+                Index = 2,
+                Photo = "images/onboarding/onboarding_photo_3.png",
+                PhotoAlt = Localizer["OnboardingSlide3PhotoAlt"],
+                Title = Localizer["OnboardingSlide3Title"],
+                Subtitle = sharedSubtitle,
+                BadgeShape = OrbitBadgeShape.Photo,
+                Icons =
+                [
+                    "images/onboarding/icon_delivery_1.png",
+                    "images/onboarding/icon_delivery_2.png",
+                    "images/onboarding/icon_delivery_3.png",
+                    "images/onboarding/icon_delivery_4.png",
+                    "images/onboarding/icon_delivery_5.png"
+                ]
+            }
+        ];
+    }
 
     private bool IsLastStep => _index >= _slides.Count - 1;
 

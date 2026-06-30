@@ -1,3 +1,5 @@
+@inject IStringLocalizer<SharedResource> Localizer
+
 <div class="search">
     <svg class="search__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
         <circle cx="11" cy="11" r="7" />
@@ -7,8 +9,8 @@
     <input class="search__input"
            type="search"
            inputmode="search"
-           placeholder="Find for food or restaurant..."
-           aria-label="Find for food or restaurant"
+           placeholder="@Localizer["HomeSearchPlaceholder"]"
+           aria-label="@Localizer["HomeSearchAria"]"
            value="@_value"
            @oninput="OnInput" />
 </div>

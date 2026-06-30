@@ -1,18 +1,20 @@
 using FoodDeliveryBlazorApp.Features.Home.Models;
+using FoodDeliveryBlazorApp.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace FoodDeliveryBlazorApp.Features.Home.Services;
 
-public sealed class MockAddressService : IAddressService
+public sealed class MockAddressService(IStringLocalizer<SharedResource> localizer) : IAddressService
 {
-    private static readonly IReadOnlyList<DeliveryAddress> Addresses =
-    [
-        new DeliveryAddress { Tag = "Home", FullAddress = "4102 Pretty View Lane" },
-        new DeliveryAddress { Tag = "Work", FullAddress = "23 Halloway Road, Suite 5" },
-        new DeliveryAddress { Tag = "Gym", FullAddress = "768 Sunset Boulevard" },
-    ];
-
     public Task<IReadOnlyList<DeliveryAddress>> GetAddressesAsync()
     {
-        return Task.FromResult(Addresses);
+        IReadOnlyList<DeliveryAddress> addresses =
+        [
+            new DeliveryAddress { Tag = localizer["AddressTagHome"], FullAddress = "4102 Pretty View Lane" },
+            new DeliveryAddress { Tag = localizer["AddressTagWork"], FullAddress = "23 Halloway Road, Suite 5" },
+            new DeliveryAddress { Tag = localizer["AddressTagGym"], FullAddress = "768 Sunset Boulevard" },
+        ];
+
+        return Task.FromResult(addresses);
     }
 }

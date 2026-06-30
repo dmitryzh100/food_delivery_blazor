@@ -8,6 +8,7 @@
 @inject IRestaurantService RestaurantService
 @inject IPopularItemService PopularItemService
 @inject NavigationManager Navigation
+@inject IStringLocalizer<SharedResource> Localizer
 
 <PageTitle>FoodHub</PageTitle>
 
@@ -27,7 +28,7 @@
                     OnProfileClick="OpenMenu"
                     OnAddressSelected="SelectAddress" />
 
-        <h1 class="home__title">What would you like to order</h1>
+        <h1 class="home__title">@Localizer["HomeMainHeading"]</h1>
 
         <SearchBar @bind-Value="_searchQuery" />
 

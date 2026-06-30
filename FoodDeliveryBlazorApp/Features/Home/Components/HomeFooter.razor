@@ -1,9 +1,11 @@
-<nav class="footer" aria-label="Primary">
+@inject IStringLocalizer<SharedResource> Localizer
+
+<nav class="footer" aria-label="@Localizer["FooterNavAria"]">
     @foreach (FooterTab tab in _tabs)
     {
         <button type="button"
                 class="footer__item footer__item--@tab.Kind"
-                aria-label="@tab.Label"
+                aria-label="@Localizer[tab.LabelKey]"
                 aria-current="@(tab.Kind == "active" ? "page" : null)">
             <span class="footer__icon" style="--icon: url('@tab.Icon')"></span>
             @if (tab.Badge is not null)
@@ -15,14 +17,14 @@
 </nav>
 
 @code {
-    private sealed record FooterTab(string Label, string Icon, string Kind, string? Badge = null);
+    private sealed record FooterTab(string LabelKey, string Icon, string Kind, string? Badge = null);
 
     private readonly IReadOnlyList<FooterTab> _tabs =
     [
-        new FooterTab("Explore", "images/home/icon_compass.svg", "active"),
-        new FooterTab("Nearby", "images/home/icon_location_2.svg", "default"),
-        new FooterTab("Cart", "images/home/icon_cart.svg", "accent", "4"),
-        new FooterTab("Favorites", "images/home/icon_heart.svg", "default"),
-        new FooterTab("Notifications", "images/home/icon_bell.svg", "default", "6"),
+        new FooterTab("FooterExplore", "images/home/icon_compass.svg", "active"),
+        new FooterTab("FooterNearby", "images/home/icon_location_2.svg", "default"),
+        new FooterTab("FooterCart", "images/home/icon_cart.svg", "accent", "4"),
+        new FooterTab("FooterFavorites", "images/home/icon_heart.svg", "default"),
+        new FooterTab("FooterNotifications", "images/home/icon_bell.svg", "default", "6"),
     ];
 }

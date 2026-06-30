@@ -83,6 +83,13 @@ code {
     font-weight: 400;
 }
 
+.auth-language-bar {
+    position: absolute;
+    top: 30px;
+    right: 24px;
+    z-index: 30;
+}
+
 .auth-page {
     position: relative;
     min-height: 100vh;

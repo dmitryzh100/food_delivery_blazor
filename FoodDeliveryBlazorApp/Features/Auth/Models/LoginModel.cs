@@ -1,14 +1,15 @@
 using System.ComponentModel.DataAnnotations;
+using FoodDeliveryBlazorApp.Resources;
 
 namespace FoodDeliveryBlazorApp.Features.Auth.Models;
 
 public sealed class LoginModel
 {
-    [Required(ErrorMessage = "Email is required")]
-    [EmailAddress(ErrorMessage = "Enter a valid email address")]
+    [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationEmailRequired))]
+    [EmailAddress(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationEmailInvalid))]
     public string Email { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Password is required")]
-    [MinLength(6, ErrorMessage = "Password must be at least 6 characters")]
+    [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationPasswordRequired))]
+    [MinLength(6, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationPasswordMinLength))]
     public string Password { get; set; } = string.Empty;
 }
