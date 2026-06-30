@@ -1,0 +1,59 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ development ]   # fires on push and on merges into development
+  workflow_dispatch:            # lets you run it manually from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two deploys at once; let the newest win.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Publish (Release)
+        run: dotnet publish FoodDeliveryBlazorApp/FoodDeliveryBlazorApp.csproj -c Release -o publish
+
+      # Project pages live under /<repo>/, so the app's base path must match.
+      - name: Rewrite base href for project pages
+        run: sed -i 's|<base href="/" />|<base href="/food_delivery_blazor/" />|g' publish/wwwroot/index.html
+
+      # SPA fallback so deep links / refresh (e.g. /food_delivery_blazor/profile) don't 404.
+      - name: Add SPA 404 fallback
+        run: cp publish/wwwroot/index.html publish/wwwroot/404.html
+
+      # Stop GitHub's Jekyll from stripping Blazor's _framework folder.
+      - name: Disable Jekyll
+        run: touch publish/wwwroot/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: publish/wwwroot
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
