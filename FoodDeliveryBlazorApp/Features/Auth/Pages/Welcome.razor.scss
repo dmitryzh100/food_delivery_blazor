@@ -43,10 +43,12 @@
 
 .welcome-skip {
     @include flex-center;
-    @include size(55px, 32px);
+    min-width: 55px;
+    height: 32px;
+    padding: 0 10px;
     position: absolute;
     top: 29px;
-    right: 27.5px;
+    left: 16px;
     border-radius: $radius-card;
     opacity: 1;
     color: var(--color-primary);
@@ -63,7 +65,6 @@
 .welcome-title {
     @include typography(700, 53px, 1.28, 0);
     margin: 0;
-    white-space: nowrap;
     color: var(--color-text);
 
     .brand {

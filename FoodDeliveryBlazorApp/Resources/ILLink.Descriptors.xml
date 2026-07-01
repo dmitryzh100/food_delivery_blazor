@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SharedResource exposes static string properties that are resolved by reflection
+  from data annotations (ErrorMessageResourceType / ErrorMessageResourceName). They
+  are only referenced via nameof at compile time, so the IL trimmer cannot see the
+  usage and would otherwise remove them in trimmed (Release) publishes. Root the type
+  so the localized validation messages keep working after trimming.
+-->
+<linker>
+  <assembly fullname="FoodDeliveryBlazorApp">
+    <type fullname="FoodDeliveryBlazorApp.Resources.SharedResource" preserve="all" />
+  </assembly>
+</linker>

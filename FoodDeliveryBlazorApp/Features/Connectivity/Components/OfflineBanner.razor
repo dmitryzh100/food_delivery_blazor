@@ -1,11 +1,12 @@
 @implements IDisposable
 @inject IConnectivityService Connectivity
+@inject IStringLocalizer<SharedResource> Localizer
 
 @if (!Connectivity.IsOnline)
 {
     <div class="offline-banner" role="status" aria-live="polite">
         <MudIcon Icon="@Icons.Material.Filled.CloudOff" Size="Size.Small" Color="Color.Inherit" />
-        <span class="offline-banner__text">You are currently offline.</span>
+        <span class="offline-banner__text">@Localizer["OfflineBannerText"]</span>
     </div>
 }
 

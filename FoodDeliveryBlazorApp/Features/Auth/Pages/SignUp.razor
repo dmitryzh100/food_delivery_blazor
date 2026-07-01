@@ -2,8 +2,9 @@
 @layout AuthLayout
 @inject IAuthService AuthService
 @inject NavigationManager Navigation
+@inject IStringLocalizer<SharedResource> Localizer
 
-<PageTitle>Sign Up</PageTitle>
+<PageTitle>@Localizer["SignUpTitle"]</PageTitle>
 
 <section class="auth-page" aria-labelledby="signup-heading">
     <div class="auth-decor" aria-hidden="true">
@@ -12,17 +13,17 @@
         <span class="ellipse ellipse-orange"></span>
     </div>
 
-    <h1 id="signup-heading" class="auth-title">Sign Up</h1>
+    <h1 id="signup-heading" class="auth-title">@Localizer["SignUpTitle"]</h1>
 
     <EditForm EditContext="_editContext" OnValidSubmit="HandleSignUpAsync">
         <DataAnnotationsValidator />
 
         <div class="field">
-            <label class="field-label" for="signup-name">Full name</label>
+            <label class="field-label" for="signup-name">@Localizer["CommonFullName"]</label>
             <InputText id="signup-name"
                        class="form-input"
                        @bind-Value="_model.FullName"
-                       placeholder="Your full name"
+                       placeholder="@Localizer["SignUpFullNamePlaceholder"]"
                        autocomplete="name"
                        aria-describedby="signup-name-error"
                        aria-invalid="@AriaInvalid(() => _model.FullName)" />
@@ -32,11 +33,11 @@
         </div>
 
         <div class="field">
-            <label class="field-label" for="signup-email">E-mail</label>
+            <label class="field-label" for="signup-email">@Localizer["CommonEmail"]</label>
             <InputText id="signup-email"
                        class="form-input"
                        @bind-Value="_model.Email"
-                       placeholder="Your email"
+                       placeholder="@Localizer["SignUpEmailPlaceholder"]"
                        autocomplete="email"
                        inputmode="email"
                        aria-describedby="signup-email-error"
@@ -47,10 +48,10 @@
         </div>
 
         <div class="field">
-            <label class="field-label" for="signup-password">Password</label>
+            <label class="field-label" for="signup-password">@Localizer["CommonPassword"]</label>
             <PasswordField Id="signup-password"
                            @bind-Value="_model.Password"
-                           Placeholder="Password"
+                           Placeholder="@Localizer["CommonPassword"]"
                            Autocomplete="new-password"
                            AriaDescribedBy="signup-password-error"
                            AriaInvalid="@AriaInvalid(() => _model.Password)" />
@@ -65,13 +66,13 @@
         }
 
         <button type="submit" class="btn-primary signup-submit" disabled="@_isBusy">
-            @(_isBusy ? "Creating account..." : "Sign Up")
+            @(_isBusy ? Localizer["SignUpSubmitting"] : Localizer["SignUpSubmit"])
         </button>
     </EditForm>
 
-    <p class="auth-switch">Already have an account? <a class="link" href="@AppRoutes.Login">Login</a></p>
+    <p class="auth-switch">@Localizer["SignUpHaveAccount"] <a class="link" href="@AppRoutes.Login">@Localizer["SignUpLoginLink"]</a></p>
 
-    <SocialAuthButtons DividerText="Sign up with" />
+    <SocialAuthButtons DividerText="@Localizer["SocialSignUpWith"]" />
 </section>
 
 @code {

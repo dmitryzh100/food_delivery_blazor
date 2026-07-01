@@ -1,15 +1,16 @@
 @inject NavigationManager Navigation
+@inject IStringLocalizer<SharedResource> Localizer
 
 <div class="error-fallback" role="alert" aria-labelledby="error-fallback-title" aria-describedby="error-fallback-message">
     <div class="error-fallback__content">
-        <h2 id="error-fallback-title" class="error-fallback__title">Something went wrong!</h2>
+        <h2 id="error-fallback-title" class="error-fallback__title">@Localizer["ErrorFallbackTitle"]</h2>
 
         <p id="error-fallback-message" class="error-fallback__message">
-            We have encountered an unexpected error.
+            @Localizer["ErrorFallbackMessage"]
         </p>
 
         <button type="button" class="error-fallback__btn" @onclick="Reload">
-            Reload page
+            @Localizer["ErrorFallbackReload"]
         </button>
     </div>
 </div>

@@ -1,0 +1,69 @@
+@inject ICultureService CultureService
+@inject IStringLocalizer<SharedResource> Localizer
+
+<div class="lang @(_open ? "lang--open" : null)">
+    @if (_open)
+    {
+        <button type="button" class="lang__backdrop" tabindex="-1" aria-hidden="true" @onclick="Close"></button>
+    }
+
+    <button type="button"
+            class="lang__toggle"
+            @onclick="Toggle"
+            aria-haspopup="listbox"
+            aria-expanded="@(_open ? "true" : "false")"
+            aria-label="@Localizer["LanguageSelectAria"]">
+        <span class="lang__globe" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <circle cx="12" cy="12" r="9" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z" />
+            </svg>
+        </span>
+        <span class="lang__current">@CultureService.Current.Code.ToUpperInvariant()</span>
+        <span class="lang__chevron" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <polyline points="6 9 12 15 18 9" />
+            </svg>
+        </span>
+    </button>
+
+    @if (_open)
+    {
+        <ul class="lang__menu" role="listbox" aria-label="@Localizer["LanguageSelectAria"]">
+            @foreach (LanguageOption option in CultureService.SupportedLanguages)
+            {
+                bool isActive = option.Code == CultureService.Current.Code;
+
+                <li role="option" aria-selected="@(isActive ? "true" : "false")">
+                    <button type="button"
+                            class="lang__option @(isActive ? "lang__option--active" : null)"
+                            @onclick="() => SelectAsync(option.Code)">
+                        @option.NativeName
+                    </button>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    private bool _open;
+
+    private void Toggle()
+    {
+        _open = !_open;
+    }
+
+    private void Close()
+    {
+        _open = false;
+    }
+
+    private async Task SelectAsync(string code)
+    {
+        _open = false;
+
+        await CultureService.SetCultureAsync(code);
+    }
+}

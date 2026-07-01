@@ -4,6 +4,7 @@ using FoodDeliveryBlazorApp.Features.Auth.Services;
 using FoodDeliveryBlazorApp.Features.Connectivity.Services;
 using FoodDeliveryBlazorApp.Features.ErrorHandling.Services;
 using FoodDeliveryBlazorApp.Features.Home.Services;
+using FoodDeliveryBlazorApp.Features.Localization.Services;
 using FoodDeliveryBlazorApp.Features.Notifications.Services;
 using FoodDeliveryBlazorApp.Features.Profile.Services;
 using FoodDeliveryBlazorApp.Services;
@@ -20,6 +21,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 builder.Services.AddMudServices();
 builder.Services.AddAuthorizationCore();
+builder.Services.AddLocalization();
 builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
 builder.Services.AddScoped<IConnectivityService, ConnectivityService>();
 builder.Services.AddScoped<IErrorLogApi, MockErrorLogApi>();
@@ -34,5 +36,7 @@ builder.Services.AddScoped<IRestaurantService, MockRestaurantService>();
 builder.Services.AddScoped<IPopularItemService, MockPopularItemService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IToastService, ToastService>();
+builder.Services.AddScoped<ILanguageApi, MockLanguageApi>();
+builder.Services.AddScoped<ICultureService, CultureService>();
 
 await builder.Build().RunAsync();

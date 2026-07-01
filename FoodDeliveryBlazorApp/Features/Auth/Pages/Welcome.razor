@@ -2,23 +2,24 @@
 @layout AuthLayout
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthStateProvider
+@inject IStringLocalizer<SharedResource> Localizer
 
-<PageTitle>Welcome to FoodHub</PageTitle>
+<PageTitle>@Localizer["WelcomePageTitle"]</PageTitle>
 
 <section class="welcome" aria-labelledby="welcome-heading">
-    <a class="welcome-skip" href="@AppRoutes.Login" aria-label="Skip onboarding and go to login">Skip</a>
+    <a class="welcome-skip" href="@AppRoutes.Login" aria-label="@Localizer["WelcomeSkipAria"]">@Localizer["WelcomeSkip"]</a>
 
     <header class="welcome-heading">
-        <h1 id="welcome-heading" class="welcome-title">Welcome to <span class="brand">FoodHub</span></h1>
-        <p class="welcome-subtitle">Your favourite foods delivered fast at your door.</p>
+        <h1 id="welcome-heading" class="welcome-title">@Localizer["WelcomeTitle"] <span class="brand">FoodHub</span></h1>
+        <p class="welcome-subtitle">@Localizer["WelcomeSubtitle"]</p>
     </header>
 
     <div class="welcome-bottom">
-        <SocialAuthButtons DividerText="sign in with" />
+        <SocialAuthButtons DividerText="@Localizer["WelcomeSignInWith"]" />
 
-        <a class="btn-outline welcome-start" href="@AppRoutes.Onboarding">Start with email or phone</a>
+        <a class="btn-outline welcome-start" href="@AppRoutes.Onboarding">@Localizer["WelcomeStart"]</a>
 
-        <p class="auth-switch">Already have an account? <a class="link" href="@AppRoutes.Login">Sign In</a></p>
+        <p class="auth-switch">@Localizer["WelcomeHaveAccount"] <a class="link" href="@AppRoutes.Login">@Localizer["WelcomeSignInLink"]</a></p>
     </div>
 </section>
 

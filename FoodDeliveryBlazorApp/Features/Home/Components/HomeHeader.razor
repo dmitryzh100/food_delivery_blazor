@@ -1,5 +1,7 @@
+@inject IStringLocalizer<SharedResource> Localizer
+
 <header class="header">
-    <button type="button" class="header__icon-btn" @onclick="OnMenuClick" aria-label="Open menu">
+    <button type="button" class="header__icon-btn" @onclick="OnMenuClick" aria-label="@Localizer["HomeHeaderOpenMenuAria"]">
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
             <line x1="4" y1="8" x2="20" y2="8" />
             <line x1="4" y1="16" x2="13" y2="16" />
@@ -13,7 +15,7 @@
                 aria-haspopup="listbox"
                 aria-expanded="@(_isOpen ? "true" : "false")">
             <span class="delivery__caption">
-                Deliver to
+                @Localizer["HomeHeaderDeliverTo"]
                 <svg class="delivery__caret @(_isOpen ? "delivery__caret--open" : null)" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                     <polyline points="6 9 12 15 18 9" />
                 </svg>
@@ -23,8 +25,8 @@
 
         @if (_isOpen)
         {
-            <button type="button" class="delivery__backdrop" aria-label="Close address list" @onclick="Close"></button>
-            <ul class="delivery__menu" role="listbox" aria-label="Delivery address">
+            <button type="button" class="delivery__backdrop" aria-label="@Localizer["HomeHeaderCloseAddressAria"]" @onclick="Close"></button>
+            <ul class="delivery__menu" role="listbox" aria-label="@Localizer["HomeHeaderDeliveryAddressAria"]">
                 @foreach (DeliveryAddress address in Addresses)
                 {
                     <li role="option" aria-selected="@(address == SelectedAddress ? "true" : "false")">
@@ -40,7 +42,7 @@
         }
     </div>
 
-    <button type="button" class="header__profile" @onclick="OnProfileClick" aria-label="Open account menu">
+    <button type="button" class="header__profile" @onclick="OnProfileClick" aria-label="@Localizer["HomeHeaderOpenAccountAria"]">
         <UserAvatar Size="38" Shape="AvatarShape.Rounded" Src="@AvatarSrc" />
     </button>
 </header>

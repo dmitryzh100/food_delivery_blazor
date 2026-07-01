@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CommonEmail" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="CommonPassword" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="CommonFullName" xml:space="preserve">
+    <value>Nom complet</value>
+  </data>
+  <data name="ValidationFullNameRequired" xml:space="preserve">
+    <value>Le nom complet est obligatoire</value>
+  </data>
+  <data name="ValidationFullNameMinLength" xml:space="preserve">
+    <value>Saisissez votre nom complet</value>
+  </data>
+  <data name="ValidationEmailRequired" xml:space="preserve">
+    <value>L'e-mail est obligatoire</value>
+  </data>
+  <data name="ValidationEmailInvalid" xml:space="preserve">
+    <value>Saisissez une adresse e-mail valide</value>
+  </data>
+  <data name="ValidationPasswordRequired" xml:space="preserve">
+    <value>Le mot de passe est obligatoire</value>
+  </data>
+  <data name="ValidationPasswordMinLength" xml:space="preserve">
+    <value>Le mot de passe doit contenir au moins 6 caractères</value>
+  </data>
+  <data name="AuthInvalidCredentials" xml:space="preserve">
+    <value>E-mail ou mot de passe invalide.</value>
+  </data>
+  <data name="AuthEmailExists" xml:space="preserve">
+    <value>Un compte avec cet e-mail existe déjà.</value>
+  </data>
+  <data name="PasswordShow" xml:space="preserve">
+    <value>Afficher le mot de passe</value>
+  </data>
+  <data name="PasswordHide" xml:space="preserve">
+    <value>Masquer le mot de passe</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>Connexion</value>
+  </data>
+  <data name="LoginBackAria" xml:space="preserve">
+    <value>Revenir à l'accueil</value>
+  </data>
+  <data name="LoginEmailPlaceholder" xml:space="preserve">
+    <value>Votre e-mail ou téléphone</value>
+  </data>
+  <data name="LoginForgot" xml:space="preserve">
+    <value>Mot de passe oublié ?</value>
+  </data>
+  <data name="LoginSubmit" xml:space="preserve">
+    <value>Se connecter</value>
+  </data>
+  <data name="LoginSubmitting" xml:space="preserve">
+    <value>Connexion...</value>
+  </data>
+  <data name="LoginNoAccount" xml:space="preserve">
+    <value>Vous n'avez pas de compte ?</value>
+  </data>
+  <data name="LoginSignUpLink" xml:space="preserve">
+    <value>S'inscrire</value>
+  </data>
+  <data name="SignUpTitle" xml:space="preserve">
+    <value>Inscription</value>
+  </data>
+  <data name="SignUpFullNamePlaceholder" xml:space="preserve">
+    <value>Votre nom complet</value>
+  </data>
+  <data name="SignUpEmailPlaceholder" xml:space="preserve">
+    <value>Votre e-mail</value>
+  </data>
+  <data name="SignUpSubmit" xml:space="preserve">
+    <value>S'inscrire</value>
+  </data>
+  <data name="SignUpSubmitting" xml:space="preserve">
+    <value>Création du compte...</value>
+  </data>
+  <data name="SignUpHaveAccount" xml:space="preserve">
+    <value>Vous avez déjà un compte ?</value>
+  </data>
+  <data name="SignUpLoginLink" xml:space="preserve">
+    <value>Se connecter</value>
+  </data>
+  <data name="SocialSignInWith" xml:space="preserve">
+    <value>Se connecter avec</value>
+  </data>
+  <data name="SocialSignUpWith" xml:space="preserve">
+    <value>S'inscrire avec</value>
+  </data>
+  <data name="SocialFacebookAria" xml:space="preserve">
+    <value>Continuer avec Facebook</value>
+  </data>
+  <data name="SocialGoogleAria" xml:space="preserve">
+    <value>Continuer avec Google</value>
+  </data>
+  <data name="WelcomePageTitle" xml:space="preserve">
+    <value>Bienvenue sur FoodHub</value>
+  </data>
+  <data name="WelcomeSkip" xml:space="preserve">
+    <value>Passer</value>
+  </data>
+  <data name="WelcomeSkipAria" xml:space="preserve">
+    <value>Passer l'introduction et aller à la connexion</value>
+  </data>
+  <data name="WelcomeTitle" xml:space="preserve">
+    <value>Bienvenue sur</value>
+  </data>
+  <data name="WelcomeSubtitle" xml:space="preserve">
+    <value>Vos plats préférés livrés rapidement à votre porte.</value>
+  </data>
+  <data name="WelcomeSignInWith" xml:space="preserve">
+    <value>se connecter avec</value>
+  </data>
+  <data name="WelcomeStart" xml:space="preserve">
+    <value>Commencer avec un e-mail ou un téléphone</value>
+  </data>
+  <data name="WelcomeHaveAccount" xml:space="preserve">
+    <value>Vous avez déjà un compte ?</value>
+  </data>
+  <data name="WelcomeSignInLink" xml:space="preserve">
+    <value>Se connecter</value>
+  </data>
+  <data name="ProfilePageTitle" xml:space="preserve">
+    <value>Mon profil</value>
+  </data>
+  <data name="ProfileBackAria" xml:space="preserve">
+    <value>Retour</value>
+  </data>
+  <data name="ProfileEdit" xml:space="preserve">
+    <value>Modifier le profil</value>
+  </data>
+  <data name="ProfilePhoneLabel" xml:space="preserve">
+    <value>Numéro de téléphone</value>
+  </data>
+  <data name="ProfileChangePhotoAria" xml:space="preserve">
+    <value>Changer la photo de profil</value>
+  </data>
+  <data name="ProfileLanguageLabel" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="ProfileConfirmEmailTitle" xml:space="preserve">
+    <value>Changer l'adresse e-mail ?</value>
+  </data>
+  <data name="ProfileConfirmEmailMessage" xml:space="preserve">
+    <value>Votre e-mail vous sert à vous connecter et à récupérer votre compte. Si vous le remplacez par une adresse que vous ne contrôlez pas, vous pourriez perdre l'accès à votre profil. Voulez-vous vraiment le changer ?</value>
+  </data>
+  <data name="ProfileConfirmPhoneTitle" xml:space="preserve">
+    <value>Changer le numéro de téléphone ?</value>
+  </data>
+  <data name="ProfileConfirmPhoneMessage" xml:space="preserve">
+    <value>Votre numéro de téléphone est utilisé pour les mises à jour de livraison et la vérification du compte. Le modifier peut interrompre ces messages jusqu'à ce que le nouveau numéro soit confirmé. Voulez-vous continuer ?</value>
+  </data>
+  <data name="ProfileConfirmYes" xml:space="preserve">
+    <value>Oui, le changer</value>
+  </data>
+  <data name="ProfileConfirmCancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="ProfileToastChooseImage" xml:space="preserve">
+    <value>Veuillez choisir un fichier image.</value>
+  </data>
+  <data name="ProfileToastImageTooLarge" xml:space="preserve">
+    <value>L'image est trop volumineuse. La taille maximale est de {0} Mo.</value>
+  </data>
+  <data name="ProfileToastPhotoUpdated" xml:space="preserve">
+    <value>Photo de profil mise à jour.</value>
+  </data>
+  <data name="ProfileToastPhotoError" xml:space="preserve">
+    <value>Impossible de mettre à jour la photo. Veuillez réessayer.</value>
+  </data>
+  <data name="ProfileToastNameUpdated" xml:space="preserve">
+    <value>Nom complet mis à jour.</value>
+  </data>
+  <data name="ProfileToastEmailUpdated" xml:space="preserve">
+    <value>E-mail mis à jour.</value>
+  </data>
+  <data name="ProfileToastPhoneUpdated" xml:space="preserve">
+    <value>Numéro de téléphone mis à jour.</value>
+  </data>
+  <data name="LanguageSelectAria" xml:space="preserve">
+    <value>Choisir la langue</value>
+  </data>
+  <data name="HomeMainHeading" xml:space="preserve">
+    <value>Que souhaitez-vous commander</value>
+  </data>
+  <data name="HomeHeaderOpenMenuAria" xml:space="preserve">
+    <value>Ouvrir le menu</value>
+  </data>
+  <data name="HomeHeaderDeliverTo" xml:space="preserve">
+    <value>Livrer à</value>
+  </data>
+  <data name="HomeHeaderCloseAddressAria" xml:space="preserve">
+    <value>Fermer la liste d'adresses</value>
+  </data>
+  <data name="HomeHeaderDeliveryAddressAria" xml:space="preserve">
+    <value>Adresse de livraison</value>
+  </data>
+  <data name="HomeHeaderOpenAccountAria" xml:space="preserve">
+    <value>Ouvrir le menu du compte</value>
+  </data>
+  <data name="HomeSearchPlaceholder" xml:space="preserve">
+    <value>Rechercher un plat ou un restaurant...</value>
+  </data>
+  <data name="HomeSearchAria" xml:space="preserve">
+    <value>Rechercher un plat ou un restaurant</value>
+  </data>
+  <data name="ChipsAria" xml:space="preserve">
+    <value>Catégories de plats</value>
+  </data>
+  <data name="FeaturedTitle" xml:space="preserve">
+    <value>Restaurants en vedette</value>
+  </data>
+  <data name="FeaturedViewAll" xml:space="preserve">
+    <value>Voir tout</value>
+  </data>
+  <data name="FeaturedEmpty" xml:space="preserve">
+    <value>Aucun restaurant trouvé.</value>
+  </data>
+  <data name="PopularTitle" xml:space="preserve">
+    <value>Plats populaires</value>
+  </data>
+  <data name="PopularEmpty" xml:space="preserve">
+    <value>Aucun plat trouvé.</value>
+  </data>
+  <data name="RestaurantRemoveFavoriteAria" xml:space="preserve">
+    <value>Retirer des favoris</value>
+  </data>
+  <data name="RestaurantAddFavoriteAria" xml:space="preserve">
+    <value>Ajouter aux favoris</value>
+  </data>
+  <data name="RestaurantVerifiedAria" xml:space="preserve">
+    <value>Vérifié</value>
+  </data>
+  <data name="FooterNavAria" xml:space="preserve">
+    <value>Navigation principale</value>
+  </data>
+  <data name="FooterExplore" xml:space="preserve">
+    <value>Explorer</value>
+  </data>
+  <data name="FooterNearby" xml:space="preserve">
+    <value>À proximité</value>
+  </data>
+  <data name="FooterCart" xml:space="preserve">
+    <value>Panier</value>
+  </data>
+  <data name="FooterFavorites" xml:space="preserve">
+    <value>Favoris</value>
+  </data>
+  <data name="FooterNotifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="SideMenuCloseAria" xml:space="preserve">
+    <value>Fermer le menu</value>
+  </data>
+  <data name="SideMenuAccountAria" xml:space="preserve">
+    <value>Menu du compte</value>
+  </data>
+  <data name="SideMenuNavAria" xml:space="preserve">
+    <value>Navigation du compte</value>
+  </data>
+  <data name="SideMenuLogOut" xml:space="preserve">
+    <value>Se déconnecter</value>
+  </data>
+  <data name="SideMenuMyOrders" xml:space="preserve">
+    <value>Mes commandes</value>
+  </data>
+  <data name="SideMenuMyProfile" xml:space="preserve">
+    <value>Mon profil</value>
+  </data>
+  <data name="SideMenuDeliveryAddress" xml:space="preserve">
+    <value>Adresse de livraison</value>
+  </data>
+  <data name="SideMenuPaymentMethods" xml:space="preserve">
+    <value>Moyens de paiement</value>
+  </data>
+  <data name="SideMenuContactUs" xml:space="preserve">
+    <value>Nous contacter</value>
+  </data>
+  <data name="SideMenuSettings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="SideMenuHelpsFaqs" xml:space="preserve">
+    <value>Aide et FAQ</value>
+  </data>
+  <data name="UserAvatarAlt" xml:space="preserve">
+    <value>Avatar de l'utilisateur</value>
+  </data>
+  <data name="FoodBurger" xml:space="preserve">
+    <value>Burger</value>
+  </data>
+  <data name="FoodDonat" xml:space="preserve">
+    <value>Donut</value>
+  </data>
+  <data name="FoodPizza" xml:space="preserve">
+    <value>Pizza</value>
+  </data>
+  <data name="FoodMexican" xml:space="preserve">
+    <value>Mexicain</value>
+  </data>
+  <data name="FoodAsian" xml:space="preserve">
+    <value>Asiatique</value>
+  </data>
+  <data name="FoodChicken" xml:space="preserve">
+    <value>Poulet</value>
+  </data>
+  <data name="FoodFastFood" xml:space="preserve">
+    <value>Restauration rapide</value>
+  </data>
+  <data name="FoodPasta" xml:space="preserve">
+    <value>Pâtes</value>
+  </data>
+  <data name="FoodItalian" xml:space="preserve">
+    <value>Italien</value>
+  </data>
+  <data name="FoodTacos" xml:space="preserve">
+    <value>Tacos</value>
+  </data>
+  <data name="FoodDonut" xml:space="preserve">
+    <value>Beignet</value>
+  </data>
+  <data name="FoodCoffee" xml:space="preserve">
+    <value>Café</value>
+  </data>
+  <data name="FoodBakery" xml:space="preserve">
+    <value>Boulangerie</value>
+  </data>
+  <data name="FoodNoodles" xml:space="preserve">
+    <value>Nouilles</value>
+  </data>
+  <data name="FoodWok" xml:space="preserve">
+    <value>Wok</value>
+  </data>
+  <data name="RestaurantDeliveryFree" xml:space="preserve">
+    <value>livraison gratuite</value>
+  </data>
+  <data name="RestaurantDeliveryPaid" xml:space="preserve">
+    <value>livraison {0} $</value>
+  </data>
+  <data name="RestaurantDeliveryMins" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="ItemPepperoniPizzaName" xml:space="preserve">
+    <value>Pizza pepperoni</value>
+  </data>
+  <data name="ItemPepperoniPizzaDesc" xml:space="preserve">
+    <value>double fromage et pepperoni</value>
+  </data>
+  <data name="ItemCreamyPastaName" xml:space="preserve">
+    <value>Pâtes crémeuses</value>
+  </data>
+  <data name="ItemCreamyPastaDesc" xml:space="preserve">
+    <value>parmesan et herbes</value>
+  </data>
+  <data name="ItemCapreseSaladName" xml:space="preserve">
+    <value>Salade caprese</value>
+  </data>
+  <data name="ItemCapreseSaladDesc" xml:space="preserve">
+    <value>tomate et mozzarella</value>
+  </data>
+  <data name="ItemSpaghettiBologneseName" xml:space="preserve">
+    <value>Spaghetti bolognaise</value>
+  </data>
+  <data name="ItemSpaghettiBologneseDesc" xml:space="preserve">
+    <value>tomate riche et bœuf</value>
+  </data>
+  <data name="ItemGrilledSteakName" xml:space="preserve">
+    <value>Steak grillé</value>
+  </data>
+  <data name="ItemGrilledSteakDesc" xml:space="preserve">
+    <value>chimichurri et herbes</value>
+  </data>
+  <data name="ItemChickenNoodlesName" xml:space="preserve">
+    <value>Nouilles au poulet</value>
+  </data>
+  <data name="ItemChickenNoodlesDesc" xml:space="preserve">
+    <value>sautées au wok dans le soja</value>
+  </data>
+  <data name="ItemBerryDelightName" xml:space="preserve">
+    <value>Délice aux baies</value>
+  </data>
+  <data name="ItemBerryDelightDesc" xml:space="preserve">
+    <value>vanille et baies fraîches</value>
+  </data>
+  <data name="AddressTagHome" xml:space="preserve">
+    <value>Domicile</value>
+  </data>
+  <data name="AddressTagWork" xml:space="preserve">
+    <value>Travail</value>
+  </data>
+  <data name="AddressTagGym" xml:space="preserve">
+    <value>Salle de sport</value>
+  </data>
+  <data name="OnboardingTitle" xml:space="preserve">
+    <value>Commencez avec FoodHub</value>
+  </data>
+  <data name="OnboardingCarouselAria" xml:space="preserve">
+    <value>Présentation de FoodHub</value>
+  </data>
+  <data name="OnboardingStep" xml:space="preserve">
+    <value>Étape {0} sur {1}</value>
+  </data>
+  <data name="OnboardingNextSignUpAria" xml:space="preserve">
+    <value>Aller à l'inscription</value>
+  </data>
+  <data name="OnboardingNextStepAria" xml:space="preserve">
+    <value>Étape suivante</value>
+  </data>
+  <data name="OnboardingSharedSubtitle" xml:space="preserve">
+    <value>Notre application peut vous emmener partout, même dans l'espace. Pour seulement 2,99 $ par mois</value>
+  </data>
+  <data name="OnboardingSlide1Title" xml:space="preserve">
+    <value>Parcourez votre menu et commandez directement</value>
+  </data>
+  <data name="OnboardingSlide1PhotoAlt" xml:space="preserve">
+    <value>Une personne parcourt un menu de livraison de repas sur un téléphone</value>
+  </data>
+  <data name="OnboardingSlide2Title" xml:space="preserve">
+    <value>Même dans l'espace avec nous ! Ensemble</value>
+  </data>
+  <data name="OnboardingSlide2PhotoAlt" xml:space="preserve">
+    <value>Un bol de raviolis fraîchement préparés</value>
+  </data>
+  <data name="OnboardingSlide3Title" xml:space="preserve">
+    <value>Récupérez votre livraison à votre porte</value>
+  </data>
+  <data name="OnboardingSlide3PhotoAlt" xml:space="preserve">
+    <value>Un coursier tenant un sac de courses</value>
+  </data>
+  <data name="ErrorFallbackTitle" xml:space="preserve">
+    <value>Une erreur est survenue !</value>
+  </data>
+  <data name="ErrorFallbackMessage" xml:space="preserve">
+    <value>Nous avons rencontré une erreur inattendue.</value>
+  </data>
+  <data name="ErrorFallbackReload" xml:space="preserve">
+    <value>Recharger la page</value>
+  </data>
+  <data name="OfflineBannerText" xml:space="preserve">
+    <value>Vous êtes actuellement hors ligne.</value>
+  </data>
+  <data name="NotFoundTitle" xml:space="preserve">
+    <value>Introuvable</value>
+  </data>
+  <data name="NotFoundMessage" xml:space="preserve">
+    <value>Désolé, il n'y a rien à cette adresse.</value>
+  </data>
+</root>

@@ -29,7 +29,25 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        window.blazorCulture = {
+            get: () => window.localStorage['BlazorCulture'],
+            set: (value) => window.localStorage['BlazorCulture'] = value
+        };
+    </script>
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
+    <script>
+        (function () {
+            const supported = ['en', 'uk', 'fr'];
+            let culture = window.blazorCulture.get();
+
+            if (!supported.includes(culture)) {
+                culture = 'en';
+            }
+
+            Blazor.start({ applicationCulture: culture });
+        })();
+    </script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="js/connectivity.js"></script>
     <script src="js/diagnostics.js"></script>

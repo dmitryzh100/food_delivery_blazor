@@ -1,5 +1,8 @@
 using FoodDeliveryBlazorApp.Features.Auth.Models;
+using FoodDeliveryBlazorApp.Features.Localization.Services;
+using FoodDeliveryBlazorApp.Resources;
 using FoodDeliveryBlazorApp.Services;
+using Microsoft.Extensions.Localization;
 
 namespace FoodDeliveryBlazorApp.Features.Auth.Services;
 
@@ -9,10 +12,17 @@ public sealed class MockAuthApi : IAuthApi
     private const string AccountsStorageKey = "foodhub.mockAccounts";
 
     private readonly ILocalStorageService _localStorage;
+    private readonly ILanguageApi _languageApi;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public MockAuthApi(ILocalStorageService localStorage)
+    public MockAuthApi(
+        ILocalStorageService localStorage,
+        ILanguageApi languageApi,
+        IStringLocalizer<SharedResource> localizer)
     {
         _localStorage = localStorage;
+        _languageApi = languageApi;
+        _localizer = localizer;
     }
 
     public async Task<AuthResult> LoginAsync(LoginModel model)
@@ -23,10 +33,12 @@ public sealed class MockAuthApi : IAuthApi
 
         if (!accounts.TryGetValue(NormalizeEmail(model.Email), out MockAccount? account) || account.Password != model.Password)
         {
-            return AuthResult.Failure("Invalid email or password.");
+            return AuthResult.Failure(_localizer["AuthInvalidCredentials"]);
         }
 
-        AuthUser user = new() { Email = model.Email, FullName = account.FullName };
+        string language = await _languageApi.GetLanguageAsync(model.Email) ?? string.Empty;
+
+        AuthUser user = new() { Email = model.Email, FullName = account.FullName, Language = language };
 
         return AuthResult.Success(CreateTokens(), user);
     }
@@ -40,7 +52,7 @@ public sealed class MockAuthApi : IAuthApi
 
         if (accounts.ContainsKey(key))
         {
-            return AuthResult.Failure("An account with this email already exists.");
+            return AuthResult.Failure(_localizer["AuthEmailExists"]);
         }
 
         accounts[key] = new MockAccount { FullName = model.FullName, Password = model.Password };

@@ -1,3 +1,5 @@
+@inject IStringLocalizer<SharedResource> Localizer
+
 <CascadingAuthenticationState>
     <MudThemeProvider />
     <OfflineBanner />
@@ -15,9 +17,9 @@
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
         <NotFound>
-            <PageTitle>Not found</PageTitle>
+            <PageTitle>@Localizer["NotFoundTitle"]</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p role="alert">Sorry, there's nothing at this address.</p>
+                <p role="alert">@Localizer["NotFoundMessage"]</p>
             </LayoutView>
         </NotFound>
     </Router>
