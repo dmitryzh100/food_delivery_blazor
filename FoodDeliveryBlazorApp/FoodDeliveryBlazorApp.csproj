@@ -25,4 +25,37 @@
     <TrimmerRootDescriptor Include="Resources\ILLink.Descriptors.xml" />
   </ItemGroup>
 
+  <!-- Base path the app is served from. Root ("/") for local dev; override at publish time
+       for a sub-folder deployment (e.g. GitHub Pages project site): dotnet publish -p:BaseHref=/food_delivery_blazor/ -->
+  <PropertyGroup>
+    <BaseHref>/</BaseHref>
+  </PropertyGroup>
+
+  <UsingTask TaskName="ReplaceInFile" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <File ParameterType="System.String" Required="true" />
+      <OldValue ParameterType="System.String" Required="true" />
+      <NewValue ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Fragment" Language="cs"><![CDATA[
+        var text = System.IO.File.ReadAllText(File);
+        System.IO.File.WriteAllText(File, text.Replace(OldValue, NewValue));
+      ]]></Code>
+    </Task>
+  </UsingTask>
+
+  <!-- Rewrite the base href at publish time so index.html is correct before deployment.
+       Done in-build (not post-publish) so it is parameterized and portable; the service
+       worker asset hashes are reconciled afterwards by tools/fix-service-worker-integrity.ps1. -->
+  <Target Name="RewriteBaseHrefForPublish" AfterTargets="Publish" Condition="'$(BaseHref)' != '/'">
+    <ReplaceInFile File="$(PublishDir)wwwroot/index.html"
+                   OldValue="&lt;base href=&quot;/&quot; /&gt;"
+                   NewValue="&lt;base href=&quot;$(BaseHref)&quot; /&gt;" />
+    <ReplaceInFile File="$(PublishDir)wwwroot/service-worker.js"
+                   OldValue="const base = &quot;/&quot;;"
+                   NewValue="const base = &quot;$(BaseHref)&quot;;" />
+    <Message Importance="high" Text="Rewrote base href to '$(BaseHref)' in published index.html and service-worker.js" />
+  </Target>
+
 </Project>
