@@ -7,6 +7,8 @@
     <title>FoodHub</title>
     <base href="/" />
     <meta name="theme-color" content="#FE724C" />
+    <!-- Applies the stored/system theme before the first paint to avoid a flash of the light theme. -->
+    <script src="js/theme.js"></script>
     <link rel="stylesheet" href="_content/MudBlazor/MudBlazor.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -29,25 +31,9 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <script>
-        window.blazorCulture = {
-            get: () => window.localStorage['BlazorCulture'],
-            set: (value) => window.localStorage['BlazorCulture'] = value
-        };
-    </script>
+    <script src="js/culture.js"></script>
     <script src="_framework/blazor.webassembly.js" autostart="false"></script>
-    <script>
-        (function () {
-            const supported = ['en', 'uk', 'fr'];
-            let culture = window.blazorCulture.get();
-
-            if (!supported.includes(culture)) {
-                culture = 'en';
-            }
-
-            Blazor.start({ applicationCulture: culture });
-        })();
-    </script>
+    <script src="js/blazor-start.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="js/connectivity.js"></script>
     <script src="js/diagnostics.js"></script>

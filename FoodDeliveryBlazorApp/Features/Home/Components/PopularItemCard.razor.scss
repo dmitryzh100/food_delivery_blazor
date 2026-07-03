@@ -35,7 +35,7 @@
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
     @include typography(700, 13px);
-    color: var(--color-text);
+    color: $text;
 }
 
 .pcard__price-icon {

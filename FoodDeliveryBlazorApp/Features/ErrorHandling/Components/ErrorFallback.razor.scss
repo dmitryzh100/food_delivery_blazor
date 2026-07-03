@@ -7,7 +7,7 @@
     inset: 0;
     z-index: 1000;
     padding: 24px;
-    background: $bg;
+    background: var(--color-bg);
 }
 
 .error-fallback__content {
@@ -26,7 +26,7 @@
 .error-fallback__message {
     margin: 0 0 34px;
     @include typography(400, 15px, 1.5);
-    color: $text-subtle;
+    color: var(--color-text-subtle);
 }
 
 .error-fallback__btn {

@@ -8,9 +8,33 @@
     --color-primary-soft: #{$primary-soft};
     --color-text: #{$text};
     --color-text-muted: #{$text-muted};
+    --color-text-subtle: #{$text-subtle};
+    --color-heading: #{$text-navy};
     --color-border: #{$border};
     --color-bg: #{$bg};
+    --color-page-bg: #{$page-bg};
+    --color-surface: #{$bg};
+    --color-surface-2: #F6F6F6;
+    --color-placeholder: #{$placeholder};
     --color-error: #{$error};
+
+    color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+    --color-primary-soft: rgba(251, 110, 59, 0.16);
+    --color-text: #F4F4F6;
+    --color-text-muted: #9B9BA8;
+    --color-text-subtle: #BCBCC7;
+    --color-heading: #F4F4F6;
+    --color-border: rgba(255, 255, 255, 0.10);
+    --color-bg: #26252F;
+    --color-page-bg: #1A1A21;
+    --color-surface: #35343F;
+    --color-surface-2: #2E2D38;
+    --color-placeholder: #6E6E7B;
+
+    color-scheme: dark;
 }
 
 *, *::before, *::after {
@@ -22,7 +46,7 @@ html, body {
     padding: 0;
     font-family: $font-family;
     color: var(--color-text);
-    background: $page-bg;
+    background: var(--color-page-bg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -88,6 +112,9 @@ code {
     top: 30px;
     right: 24px;
     z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .auth-page {
@@ -145,7 +172,7 @@ code {
     margin-top: 30px;
     border: none;
     border-radius: $radius-back;
-    background: $bg;
+    background: var(--color-surface);
     color: var(--color-text);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
     cursor: pointer;
@@ -169,7 +196,7 @@ code {
     @include typography(400, 14px);
     margin: 22px 0;
     text-align: center;
-    color: $text-subtle;
+    color: var(--color-text-subtle);
 }
 
 .forgot {
@@ -199,7 +226,7 @@ code {
     padding: 0 18px;
     border: 1px solid var(--color-border);
     border-radius: $radius-input;
-    background: $bg;
+    background: var(--color-surface);
     color: var(--color-text);
     font-family: inherit;
     font-size: 16px;
@@ -208,7 +235,7 @@ code {
     transition: border-color 0.15s ease;
 
     &::placeholder {
-        color: $placeholder;
+        color: var(--color-placeholder);
     }
 
     &:focus {
@@ -282,9 +309,9 @@ code {
     @include flex-center;
     width: 100%;
     height: 60px;
-    border: 1px solid $outline-border;
+    border: 1px solid var(--color-border);
     border-radius: $radius-pill;
-    background: $bg;
+    background: var(--color-surface);
     color: $outline-text;
     font-family: inherit;
     font-size: 16px;
@@ -296,7 +323,7 @@ code {
     align-items: center;
     gap: 14px;
     margin: 22px 0;
-    color: $text-subtle;
+    color: var(--color-text-subtle);
     font-size: 14px;
 
     &::before,
@@ -326,7 +353,7 @@ code {
     border: none;
     border-radius: $radius-card;
     background: $bg;
-    color: var(--color-text);
+    color: $text;
     font-family: inherit;
     font-size: 14px;
     font-weight: 600;

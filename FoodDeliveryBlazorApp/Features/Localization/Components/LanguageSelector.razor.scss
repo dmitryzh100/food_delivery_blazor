@@ -16,7 +16,7 @@
     height: 38px;
     padding: 0 12px;
     border-radius: $radius-pill;
-    background: $bg;
+    background: var(--color-surface);
     color: var(--color-text);
     @include typography(600, 14px, 1, 0.04em);
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
@@ -34,7 +34,7 @@
 
 .lang__chevron {
     display: flex;
-    color: $text-muted;
+    color: var(--color-text-muted);
     transition: transform 0.15s ease;
 }
 
@@ -61,7 +61,7 @@
     padding: 6px;
     list-style: none;
     border-radius: 16px;
-    background: $bg;
+    background: var(--color-surface);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
 }
 
