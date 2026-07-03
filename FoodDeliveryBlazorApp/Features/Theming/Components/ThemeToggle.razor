@@ -1,0 +1,81 @@
+@inject IThemeService ThemeService
+@inject IStringLocalizer<SharedResource> Localizer
+@implements IDisposable
+
+<button type="button"
+        class="theme-toggle @(IsDark ? "theme-toggle--dark" : null)"
+        role="switch"
+        aria-checked="@(IsDark ? "true" : "false")"
+        aria-label="@(IsDark ? Localizer["ThemeSwitchToLight"] : Localizer["ThemeSwitchToDark"])"
+        @onclick="ToggleAsync">
+    <span class="theme-toggle__track">
+        <span class="theme-toggle__ghost theme-toggle__ghost--sun" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <circle cx="12" cy="12" r="4.2" />
+                <line x1="12" y1="2.5" x2="12" y2="5" />
+                <line x1="12" y1="19" x2="12" y2="21.5" />
+                <line x1="2.5" y1="12" x2="5" y2="12" />
+                <line x1="19" y1="12" x2="21.5" y2="12" />
+                <line x1="5.2" y1="5.2" x2="6.9" y2="6.9" />
+                <line x1="17.1" y1="17.1" x2="18.8" y2="18.8" />
+                <line x1="5.2" y1="18.8" x2="6.9" y2="17.1" />
+                <line x1="17.1" y1="6.9" x2="18.8" y2="5.2" />
+            </svg>
+        </span>
+
+        <span class="theme-toggle__ghost theme-toggle__ghost--moon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" focusable="false">
+                <path d="M20 14.5a8 8 0 0 1-10.5-10 0.6 0.6 0 0 0-0.8-0.8 9 9 0 1 0 12.1 12.1 0.6 0.6 0 0 0-0.8-1.3z" />
+            </svg>
+        </span>
+
+        <span class="theme-toggle__knob" aria-hidden="true">
+            @if (IsDark)
+            {
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" focusable="false">
+                    <path d="M20 14.5a8 8 0 0 1-10.5-10 0.6 0.6 0 0 0-0.8-0.8 9 9 0 1 0 12.1 12.1 0.6 0.6 0 0 0-0.8-1.3z" />
+                </svg>
+            }
+            else
+            {
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    <circle cx="12" cy="12" r="4.2" />
+                    <line x1="12" y1="2.5" x2="12" y2="5" />
+                    <line x1="12" y1="19" x2="12" y2="21.5" />
+                    <line x1="2.5" y1="12" x2="5" y2="12" />
+                    <line x1="19" y1="12" x2="21.5" y2="12" />
+                    <line x1="5.2" y1="5.2" x2="6.9" y2="6.9" />
+                    <line x1="17.1" y1="17.1" x2="18.8" y2="18.8" />
+                    <line x1="5.2" y1="18.8" x2="6.9" y2="17.1" />
+                    <line x1="17.1" y1="6.9" x2="18.8" y2="5.2" />
+                </svg>
+            }
+        </span>
+    </span>
+</button>
+
+@code {
+    private bool IsDark => ThemeService.Current == AppTheme.Dark;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ThemeService.InitializeAsync();
+
+        ThemeService.Changed += OnThemeChanged;
+    }
+
+    private async Task ToggleAsync()
+    {
+        await ThemeService.ToggleAsync();
+    }
+
+    private void OnThemeChanged()
+    {
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        ThemeService.Changed -= OnThemeChanged;
+    }
+}

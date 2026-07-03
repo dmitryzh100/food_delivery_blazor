@@ -4,14 +4,14 @@
 .home {
     position: relative;
     min-height: 100vh;
-    background: $bg;
+    background: var(--color-bg);
     overflow: hidden;
 }
 
 .home__scene {
     min-height: 100vh;
     padding: 0 24px calc(96px + env(safe-area-inset-bottom, 0px));
-    background: $bg;
+    background: var(--color-bg);
 }
 
 .home__title {

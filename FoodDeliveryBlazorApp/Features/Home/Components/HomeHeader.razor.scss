@@ -14,7 +14,7 @@
     @include flex-center;
     @include size(44px);
     border-radius: 14px;
-    background: $bg;
+    background: var(--color-surface);
     color: var(--color-text);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
 }
@@ -73,7 +73,7 @@
     margin: 0;
     padding: 6px;
     list-style: none;
-    background: $bg;
+    background: var(--color-surface);
     border-radius: 16px;
     box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
 }

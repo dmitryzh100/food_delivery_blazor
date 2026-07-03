@@ -7,6 +7,7 @@ using FoodDeliveryBlazorApp.Features.Home.Services;
 using FoodDeliveryBlazorApp.Features.Localization.Services;
 using FoodDeliveryBlazorApp.Features.Notifications.Services;
 using FoodDeliveryBlazorApp.Features.Profile.Services;
+using FoodDeliveryBlazorApp.Features.Theming.Services;
 using FoodDeliveryBlazorApp.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -38,5 +39,6 @@ builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IToastService, ToastService>();
 builder.Services.AddScoped<ILanguageApi, MockLanguageApi>();
 builder.Services.AddScoped<ICultureService, CultureService>();
+builder.Services.AddScoped<IThemeService, ThemeService>();
 
 await builder.Build().RunAsync();

@@ -241,6 +241,12 @@
   <data name="LanguageSelectAria" xml:space="preserve">
     <value>Select language</value>
   </data>
+  <data name="ThemeSwitchToDark" xml:space="preserve">
+    <value>Switch to dark mode</value>
+  </data>
+  <data name="ThemeSwitchToLight" xml:space="preserve">
+    <value>Switch to light mode</value>
+  </data>
   <data name="HomeMainHeading" xml:space="preserve">
     <value>What would you like to order</value>
   </data>

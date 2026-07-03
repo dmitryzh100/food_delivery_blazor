@@ -30,7 +30,7 @@
     max-width: 320px;
     padding: 28px 24px 22px;
     border-radius: 22px;
-    background: $bg;
+    background: var(--color-surface);
     text-align: center;
     box-shadow: soft-shadow(0, 24px, 60px, $text, 0.22);
     animation: confirm-pop 0.18s ease;
@@ -54,7 +54,7 @@
 .confirm__message {
     margin: 0 0 22px;
     @include typography(400, 14px, 1.5);
-    color: $text-subtle;
+    color: var(--color-text-subtle);
 }
 
 .confirm__actions {
@@ -77,9 +77,9 @@
 }
 
 .confirm__btn--ghost {
-    border: 1px solid $outline-border;
-    background: $bg;
-    color: $text-subtle;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-subtle);
 }
 
 .confirm__btn--primary {

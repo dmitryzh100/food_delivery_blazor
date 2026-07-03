@@ -8,13 +8,13 @@
     height: 56px;
     padding: 0 20px;
     border-radius: 16px;
-    background: #F6F6F6;
+    background: var(--color-surface-2);
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.04);
 }
 
 .search__icon {
     flex-shrink: 0;
-    color: $text-navy;
+    color: var(--color-heading);
 }
 
 .search__input {
