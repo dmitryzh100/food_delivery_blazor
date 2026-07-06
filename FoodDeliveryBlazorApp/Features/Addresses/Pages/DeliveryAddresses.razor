@@ -1,0 +1,174 @@
+@attribute [Route("/" + AppRoutes.Addresses)]
+@attribute [Authorize]
+@layout MainLayout
+@inject IAddressBookService AddressService
+@inject IToastService ToastService
+@inject NavigationManager Navigation
+@inject IStringLocalizer<SharedResource> Localizer
+
+<PageTitle>@Localizer["AddressesPageTitle"]</PageTitle>
+
+<section class="addresses">
+    <header class="addresses__top">
+        <button type="button" class="back-btn" @onclick="GoBack" aria-label="@Localizer["AddressesBackAria"]">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <polyline points="15 18 9 12 15 6" />
+            </svg>
+        </button>
+
+        <h1 class="addresses__title">@Localizer["AddressesPageTitle"]</h1>
+    </header>
+
+    <div class="addresses__list">
+        @foreach (SavedAddress address in _addresses)
+        {
+            <AddressCard @key="address.Id"
+                         Address="address"
+                         IsDragTarget="address.Id == _dragOverId"
+                         OnDragStart="HandleDragStart"
+                         OnDragOver="HandleDragOver"
+                         OnDrop="HandleDropAsync"
+                         OnDragEnd="HandleDragEnd"
+                         OnSetPrimaryRequested="SetPrimaryAsync"
+                         OnDeleteRequested="RequestDelete" />
+        }
+    </div>
+
+    <button type="button" class="addresses__add" @onclick="AddNewAddress">@Localizer["AddressesAddNew"]</button>
+
+    <ConfirmDialog Visible="_confirmVisible"
+                   Title="@Localizer["AddressesConfirmDeleteTitle"]"
+                   Message="@Localizer["AddressesConfirmDeleteMessage"]"
+                   ConfirmText="@Localizer["AddressesConfirmDeleteYes"]"
+                   CancelText="@Localizer["AddressesConfirmCancel"]"
+                   OnConfirm="ConfirmDeleteAsync"
+                   OnCancel="CancelDelete" />
+</section>
+
+@code {
+    private List<SavedAddress> _addresses = [];
+    private Guid? _draggedId;
+    private Guid? _dragOverId;
+
+    private bool _confirmVisible;
+    private Guid? _pendingDeleteId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshAsync();
+    }
+
+    private async Task RefreshAsync()
+    {
+        _addresses = (await AddressService.GetAddressesAsync()).ToList();
+    }
+
+    private void HandleDragStart(SavedAddress address)
+    {
+        _draggedId = address.Id;
+        _dragOverId = null;
+    }
+
+    private void HandleDragOver(SavedAddress address)
+    {
+        if (_draggedId is null || _draggedId == address.Id || _dragOverId == address.Id)
+        {
+            return;
+        }
+
+        _dragOverId = address.Id;
+    }
+
+    private async Task HandleDropAsync(SavedAddress target)
+    {
+        Guid? draggedId = _draggedId;
+
+        ClearDrag();
+
+        if (draggedId is null || draggedId == target.Id)
+        {
+            return;
+        }
+
+        SavedAddress? dragged = _addresses.FirstOrDefault(address => address.Id == draggedId);
+
+        if (dragged is null)
+        {
+            return;
+        }
+
+        Guid previousPrimaryId = _addresses[0].Id;
+
+        _addresses.Remove(dragged);
+        int targetIndex = _addresses.FindIndex(address => address.Id == target.Id);
+        _addresses.Insert(targetIndex, dragged);
+
+        await AddressService.ReorderAsync(_addresses.Select(address => address.Id).ToList());
+        await RefreshAsync();
+
+        if (_addresses.Count > 0 && _addresses[0].Id != previousPrimaryId)
+        {
+            ToastService.ShowSuccess(Localizer["AddressesToastPrimaryUpdated"]);
+        }
+    }
+
+    private void HandleDragEnd()
+    {
+        ClearDrag();
+    }
+
+    private void ClearDrag()
+    {
+        _draggedId = null;
+        _dragOverId = null;
+    }
+
+    private async Task SetPrimaryAsync(SavedAddress address)
+    {
+        if (address.IsPrimary)
+        {
+            return;
+        }
+
+        await AddressService.SetPrimaryAsync(address.Id);
+        await RefreshAsync();
+
+        ToastService.ShowSuccess(Localizer["AddressesToastPrimaryUpdated"]);
+    }
+
+    private void RequestDelete(SavedAddress address)
+    {
+        _pendingDeleteId = address.Id;
+        _confirmVisible = true;
+    }
+
+    private async Task ConfirmDeleteAsync()
+    {
+        if (_pendingDeleteId is Guid id)
+        {
+            await AddressService.DeleteAsync(id);
+            await RefreshAsync();
+
+            ToastService.ShowSuccess(Localizer["AddressesToastDeleted"]);
+        }
+
+        _confirmVisible = false;
+        _pendingDeleteId = null;
+    }
+
+    private void CancelDelete()
+    {
+        _confirmVisible = false;
+        _pendingDeleteId = null;
+    }
+
+    private void AddNewAddress()
+    {
+        Navigation.NavigateTo(AppRoutes.AddressCreate);
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo(AppRoutes.Home);
+    }
+}

@@ -1,4 +1,5 @@
 using FoodDeliveryBlazorApp;
+using FoodDeliveryBlazorApp.Features.Addresses.Services;
 using FoodDeliveryBlazorApp.Features.Auth;
 using FoodDeliveryBlazorApp.Features.Auth.Services;
 using FoodDeliveryBlazorApp.Features.Connectivity.Services;
@@ -31,7 +32,7 @@ builder.Services.AddScoped<IAuthApi, MockAuthApi>();
 builder.Services.AddScoped<TokenAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<TokenAuthenticationStateProvider>());
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IAddressService, MockAddressService>();
+builder.Services.AddScoped<IAddressBookService, MockAddressBookService>();
 builder.Services.AddScoped<ICategoryService, MockCategoryService>();
 builder.Services.AddScoped<IRestaurantService, MockRestaurantService>();
 builder.Services.AddScoped<IPopularItemService, MockPopularItemService>();

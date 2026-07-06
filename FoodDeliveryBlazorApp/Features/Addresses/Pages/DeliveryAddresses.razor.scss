@@ -1,0 +1,60 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.addresses {
+    position: relative;
+    min-height: 100vh;
+    padding: 0 26px 40px;
+    background: var(--color-bg);
+    overflow: hidden;
+}
+
+.addresses__top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+
+    .back-btn {
+        margin-top: 0;
+    }
+}
+
+.addresses__title {
+    @include flex-center;
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    height: 46px;
+    margin: 0;
+    transform: translateX(-50%);
+    @include typography(700, 20px, 1.2);
+    color: var(--color-text);
+}
+
+.addresses__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 34px;
+}
+
+.addresses__add {
+    @include reset-button;
+    display: block;
+    width: 260px;
+    max-width: 100%;
+    height: 62px;
+    margin: 44px auto 0;
+    border-radius: $radius-pill;
+    background: var(--color-primary);
+    color: $on-dark;
+    @include typography(700, 15px, 1, 0.12em);
+    text-transform: uppercase;
+    box-shadow: soft-shadow(0, 16px, 30px, $brand, 0.35);
+    transition: transform 0.05s ease, box-shadow 0.2s ease;
+
+    &:active {
+        transform: translateY(1px);
+    }
+}

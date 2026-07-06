@@ -1,0 +1,125 @@
+@inject IStringLocalizer<SharedResource> Localizer
+
+<article class="address-card @(Address.IsPrimary ? "address-card--primary" : null) @(IsDragTarget ? "address-card--drop" : null)"
+         draggable="true"
+         @ondragstart="() => OnDragStart.InvokeAsync(Address)"
+         @ondragover="() => OnDragOver.InvokeAsync(Address)"
+         @ondragover:preventDefault="true"
+         @ondrop="() => OnDrop.InvokeAsync(Address)"
+         @ondrop:preventDefault="true"
+         @ondragend="() => OnDragEnd.InvokeAsync()">
+
+    <span class="address-card__icon" aria-hidden="true">
+        <span class="address-card__icon-badge">
+            <MudIcon Icon="@KindIcon" Size="Size.Medium" Color="Color.Inherit" />
+        </span>
+    </span>
+
+    <div class="address-card__body">
+        <div class="address-card__head">
+            <h2 class="address-card__tag">@Localizer[Address.TagKey]</h2>
+
+            @if (Address.IsPrimary)
+            {
+                <span class="address-card__badge">@Localizer["AddressesPrimaryBadge"]</span>
+            }
+        </div>
+
+        <p class="address-card__phone">@Address.Phone</p>
+        <p class="address-card__line">@Address.FullAddress</p>
+    </div>
+
+    <div class="address-card__menu">
+        <button type="button"
+                class="address-card__menu-btn"
+                @onclick="ToggleMenu"
+                aria-haspopup="menu"
+                aria-expanded="@(_menuOpen ? "true" : "false")"
+                aria-label="@Localizer["AddressesMenuAria"]">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true" focusable="false">
+                <circle cx="5" cy="12" r="1.8" />
+                <circle cx="12" cy="12" r="1.8" />
+                <circle cx="19" cy="12" r="1.8" />
+            </svg>
+        </button>
+
+        @if (_menuOpen)
+        {
+            <button type="button" class="address-card__menu-backdrop" aria-hidden="true" tabindex="-1" @onclick="CloseMenu"></button>
+
+            <div class="address-card__popover" role="menu">
+                @if (!Address.IsPrimary)
+                {
+                    <button type="button" class="address-card__popover-item address-card__popover-item--primary" role="menuitem" @onclick="RequestSetPrimary">
+                        <MudIcon Icon="@Icons.Material.Outlined.StarBorder" Size="Size.Small" Color="Color.Inherit" />
+                        <span>@Localizer["AddressesMakePrimary"]</span>
+                    </button>
+                }
+
+                <button type="button" class="address-card__popover-item address-card__popover-item--danger" role="menuitem" @onclick="RequestDelete">
+                    <MudIcon Icon="@Icons.Material.Outlined.DeleteOutline" Size="Size.Small" Color="Color.Inherit" />
+                    <span>@Localizer["AddressesDelete"]</span>
+                </button>
+            </div>
+        }
+    </div>
+</article>
+
+@code {
+    [Parameter, EditorRequired]
+    public SavedAddress Address { get; set; } = default!;
+
+    [Parameter]
+    public bool IsDragTarget { get; set; }
+
+    [Parameter]
+    public EventCallback<SavedAddress> OnDragStart { get; set; }
+
+    [Parameter]
+    public EventCallback<SavedAddress> OnDragOver { get; set; }
+
+    [Parameter]
+    public EventCallback<SavedAddress> OnDrop { get; set; }
+
+    [Parameter]
+    public EventCallback OnDragEnd { get; set; }
+
+    [Parameter]
+    public EventCallback<SavedAddress> OnSetPrimaryRequested { get; set; }
+
+    [Parameter]
+    public EventCallback<SavedAddress> OnDeleteRequested { get; set; }
+
+    private bool _menuOpen;
+
+    private string KindIcon => Address.Kind switch
+    {
+        AddressKind.Home => Icons.Material.Filled.Apartment,
+        AddressKind.Office => Icons.Material.Filled.Work,
+        _ => Icons.Material.Filled.Place,
+    };
+
+    private void ToggleMenu()
+    {
+        _menuOpen = !_menuOpen;
+    }
+
+    private void CloseMenu()
+    {
+        _menuOpen = false;
+    }
+
+    private async Task RequestSetPrimary()
+    {
+        _menuOpen = false;
+
+        await OnSetPrimaryRequested.InvokeAsync(Address);
+    }
+
+    private async Task RequestDelete()
+    {
+        _menuOpen = false;
+
+        await OnDeleteRequested.InvokeAsync(Address);
+    }
+}
