@@ -457,6 +457,51 @@
   <data name="AddressTagGym" xml:space="preserve">
     <value>Спортзал</value>
   </data>
+  <data name="AddressTagOffice" xml:space="preserve">
+    <value>Офіс</value>
+  </data>
+  <data name="AddressTagOther" xml:space="preserve">
+    <value>Інше</value>
+  </data>
+  <data name="AddressesPageTitle" xml:space="preserve">
+    <value>Адреса доставки</value>
+  </data>
+  <data name="AddressesBackAria" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="AddressesAddNew" xml:space="preserve">
+    <value>Додати адресу</value>
+  </data>
+  <data name="AddressesMenuAria" xml:space="preserve">
+    <value>Опції адреси</value>
+  </data>
+  <data name="AddressesDelete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="AddressesMakePrimary" xml:space="preserve">
+    <value>Зробити основною</value>
+  </data>
+  <data name="AddressesPrimaryBadge" xml:space="preserve">
+    <value>Основна</value>
+  </data>
+  <data name="AddressesConfirmDeleteTitle" xml:space="preserve">
+    <value>Видалити адресу?</value>
+  </data>
+  <data name="AddressesConfirmDeleteMessage" xml:space="preserve">
+    <value>Цю адресу буде видалено зі збережених адрес доставки. Цю дію не можна скасувати.</value>
+  </data>
+  <data name="AddressesConfirmDeleteYes" xml:space="preserve">
+    <value>Так, видалити</value>
+  </data>
+  <data name="AddressesConfirmCancel" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="AddressesToastDeleted" xml:space="preserve">
+    <value>Адресу видалено.</value>
+  </data>
+  <data name="AddressesToastPrimaryUpdated" xml:space="preserve">
+    <value>Основну адресу оновлено.</value>
+  </data>
   <data name="OnboardingTitle" xml:space="preserve">
     <value>Почніть із FoodHub</value>
   </data>

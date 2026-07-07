@@ -27,13 +27,13 @@
         {
             <button type="button" class="delivery__backdrop" aria-label="@Localizer["HomeHeaderCloseAddressAria"]" @onclick="Close"></button>
             <ul class="delivery__menu" role="listbox" aria-label="@Localizer["HomeHeaderDeliveryAddressAria"]">
-                @foreach (DeliveryAddress address in Addresses)
+                @foreach (SavedAddress address in Addresses)
                 {
                     <li role="option" aria-selected="@(address == SelectedAddress ? "true" : "false")">
                         <button type="button"
                                 class="delivery__option @(address == SelectedAddress ? "delivery__option--active" : null)"
                                 @onclick="() => SelectAsync(address)">
-                            <span class="delivery__option-label">@address.Tag</span>
+                            <span class="delivery__option-label">@Localizer[address.TagKey]</span>
                             <span class="delivery__option-line">@address.FullAddress</span>
                         </button>
                     </li>
@@ -49,10 +49,10 @@
 
 @code {
     [Parameter, EditorRequired]
-    public IReadOnlyList<DeliveryAddress> Addresses { get; set; } = [];
+    public IReadOnlyList<SavedAddress> Addresses { get; set; } = [];
 
     [Parameter, EditorRequired]
-    public DeliveryAddress? SelectedAddress { get; set; }
+    public SavedAddress? SelectedAddress { get; set; }
 
     [Parameter]
     public string AvatarSrc { get; set; } = "images/avatar.png";
@@ -64,7 +64,7 @@
     public EventCallback OnProfileClick { get; set; }
 
     [Parameter]
-    public EventCallback<DeliveryAddress> OnAddressSelected { get; set; }
+    public EventCallback<SavedAddress> OnAddressSelected { get; set; }
 
     private bool _isOpen;
 
@@ -78,7 +78,7 @@
         _isOpen = false;
     }
 
-    private async Task SelectAsync(DeliveryAddress address)
+    private async Task SelectAsync(SavedAddress address)
     {
         _isOpen = false;
 

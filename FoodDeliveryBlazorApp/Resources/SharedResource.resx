@@ -457,6 +457,51 @@
   <data name="AddressTagGym" xml:space="preserve">
     <value>Gym</value>
   </data>
+  <data name="AddressTagOffice" xml:space="preserve">
+    <value>Office</value>
+  </data>
+  <data name="AddressTagOther" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="AddressesPageTitle" xml:space="preserve">
+    <value>Delivery Address</value>
+  </data>
+  <data name="AddressesBackAria" xml:space="preserve">
+    <value>Go back</value>
+  </data>
+  <data name="AddressesAddNew" xml:space="preserve">
+    <value>Add New Address</value>
+  </data>
+  <data name="AddressesMenuAria" xml:space="preserve">
+    <value>Address options</value>
+  </data>
+  <data name="AddressesDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="AddressesMakePrimary" xml:space="preserve">
+    <value>Set as Primary</value>
+  </data>
+  <data name="AddressesPrimaryBadge" xml:space="preserve">
+    <value>Primary</value>
+  </data>
+  <data name="AddressesConfirmDeleteTitle" xml:space="preserve">
+    <value>Delete address?</value>
+  </data>
+  <data name="AddressesConfirmDeleteMessage" xml:space="preserve">
+    <value>This address will be removed from your saved delivery addresses. This action can't be undone.</value>
+  </data>
+  <data name="AddressesConfirmDeleteYes" xml:space="preserve">
+    <value>Yes, delete</value>
+  </data>
+  <data name="AddressesConfirmCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AddressesToastDeleted" xml:space="preserve">
+    <value>Address deleted.</value>
+  </data>
+  <data name="AddressesToastPrimaryUpdated" xml:space="preserve">
+    <value>Primary address updated.</value>
+  </data>
   <data name="OnboardingTitle" xml:space="preserve">
     <value>Get started with FoodHub</value>
   </data>

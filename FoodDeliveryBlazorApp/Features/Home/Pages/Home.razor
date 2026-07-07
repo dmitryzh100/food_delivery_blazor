@@ -3,7 +3,7 @@
 @layout MainLayout
 @inject IAuthService AuthService
 @inject IProfileService ProfileService
-@inject IAddressService AddressService
+@inject IAddressBookService AddressService
 @inject ICategoryService CategoryService
 @inject IRestaurantService RestaurantService
 @inject IPopularItemService PopularItemService
@@ -48,8 +48,8 @@
     private string _userAvatar = "images/avatar.png";
     private bool _isMenuOpen;
 
-    private IReadOnlyList<DeliveryAddress> _addresses = [];
-    private DeliveryAddress? _selectedAddress;
+    private IReadOnlyList<SavedAddress> _addresses = [];
+    private SavedAddress? _selectedAddress;
 
     private IReadOnlyList<CategoryChip> _categories = [];
     private IReadOnlyList<Restaurant> _restaurants = [];
@@ -75,7 +75,7 @@
     protected override async Task OnInitializedAsync()
     {
         _addresses = await AddressService.GetAddressesAsync();
-        _selectedAddress = _addresses.FirstOrDefault();
+        _selectedAddress = _addresses.FirstOrDefault(address => address.IsPrimary) ?? _addresses.FirstOrDefault();
 
         _categories = await CategoryService.GetCategoriesAsync();
         _restaurants = await RestaurantService.GetFeaturedAsync();
@@ -117,7 +117,7 @@
         _isMenuOpen = false;
     }
 
-    private void SelectAddress(DeliveryAddress address)
+    private void SelectAddress(SavedAddress address)
     {
         _selectedAddress = address;
     }
