@@ -1,5 +1,6 @@
 using FoodDeliveryBlazorApp;
 using FoodDeliveryBlazorApp.Features.Addresses.Services;
+using FoodDeliveryBlazorApp.Features.AppUpdate.Services;
 using FoodDeliveryBlazorApp.Features.Auth;
 using FoodDeliveryBlazorApp.Features.Auth.Services;
 using FoodDeliveryBlazorApp.Features.Connectivity.Services;
@@ -41,5 +42,6 @@ builder.Services.AddScoped<IToastService, ToastService>();
 builder.Services.AddScoped<ILanguageApi, MockLanguageApi>();
 builder.Services.AddScoped<ICultureService, CultureService>();
 builder.Services.AddScoped<IThemeService, ThemeService>();
+builder.Services.AddScoped<IAppUpdateService, AppUpdateService>();
 
 await builder.Build().RunAsync();

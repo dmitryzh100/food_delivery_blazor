@@ -556,4 +556,16 @@
   <data name="NotFoundMessage" xml:space="preserve">
     <value>Désolé, il n'y a rien à cette adresse.</value>
   </data>
+  <data name="UpdateAvailableTitle" xml:space="preserve">
+    <value>Mise à jour disponible</value>
+  </data>
+  <data name="UpdateAvailableMessage" xml:space="preserve">
+    <value>Une nouvelle version de FoodHub est prête. Recharger maintenant pour obtenir la dernière version ?</value>
+  </data>
+  <data name="UpdateAvailableYes" xml:space="preserve">
+    <value>Recharger</value>
+  </data>
+  <data name="UpdateAvailableNo" xml:space="preserve">
+    <value>Plus tard</value>
+  </data>
 </root>

@@ -1,0 +1,52 @@
+@implements IDisposable
+@inject IAppUpdateService AppUpdateService
+@inject IStringLocalizer<SharedResource> Localizer
+
+<ConfirmDialog Visible="_visible"
+               Title="@Localizer["UpdateAvailableTitle"]"
+               Message="@Localizer["UpdateAvailableMessage"]"
+               ConfirmText="@Localizer["UpdateAvailableYes"]"
+               CancelText="@Localizer["UpdateAvailableNo"]"
+               OnConfirm="ApplyAsync"
+               OnCancel="Dismiss" />
+
+@code {
+    private bool _visible;
+
+    protected override void OnInitialized()
+    {
+        AppUpdateService.OnUpdateAvailable += HandleUpdateAvailable;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await AppUpdateService.InitializeAsync();
+        }
+    }
+
+    private void HandleUpdateAvailable()
+    {
+        _visible = true;
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ApplyAsync()
+    {
+        _visible = false;
+
+        await AppUpdateService.ApplyUpdateAsync();
+    }
+
+    private void Dismiss()
+    {
+        _visible = false;
+    }
+
+    public void Dispose()
+    {
+        AppUpdateService.OnUpdateAvailable -= HandleUpdateAvailable;
+    }
+}

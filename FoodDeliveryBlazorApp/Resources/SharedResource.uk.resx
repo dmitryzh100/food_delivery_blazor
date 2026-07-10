@@ -556,4 +556,16 @@
   <data name="NotFoundMessage" xml:space="preserve">
     <value>На жаль, за цією адресою нічого немає.</value>
   </data>
+  <data name="UpdateAvailableTitle" xml:space="preserve">
+    <value>Доступне оновлення</value>
+  </data>
+  <data name="UpdateAvailableMessage" xml:space="preserve">
+    <value>Готова нова версія FoodHub. Перезавантажити зараз, щоб отримати найновішу версію?</value>
+  </data>
+  <data name="UpdateAvailableYes" xml:space="preserve">
+    <value>Перезавантажити</value>
+  </data>
+  <data name="UpdateAvailableNo" xml:space="preserve">
+    <value>Пізніше</value>
+  </data>
 </root>
